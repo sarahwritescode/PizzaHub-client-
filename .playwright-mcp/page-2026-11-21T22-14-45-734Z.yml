@@ -1,0 +1,56 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - link "PizzaHub home" [ref=e5] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e13]: PizzaHub
+      - navigation "Main" [ref=e14]:
+        - list [ref=e15]:
+          - listitem [ref=e16]:
+            - link "Home" [ref=e17] [cursor=pointer]:
+              - /url: /
+          - listitem [ref=e18]:
+            - link "Menu" [ref=e19] [cursor=pointer]:
+              - /url: /menu
+          - listitem [ref=e20]:
+            - link "About" [ref=e21] [cursor=pointer]:
+              - /url: /about
+          - listitem [ref=e22]:
+            - link "Contact" [ref=e23] [cursor=pointer]:
+              - /url: /contact
+      - generic [ref=e26]:
+        - link "Sign in" [ref=e49] [cursor=pointer]:
+          - /url: /sign-in
+        - link "Sign up" [ref=e50] [cursor=pointer]:
+          - /url: /sign-up
+  - main [ref=e27]:
+    - generic [ref=e28]:
+      - generic [ref=e29]:
+        - generic [ref=e30]: Sign in
+        - generic [ref=e31]: Welcome back. Sign in to your PizzaHub account.
+      - generic [ref=e34]:
+        - group [ref=e35]:
+          - generic [ref=e36]: Email
+          - textbox "Email" [ref=e37]: nobody@example.com
+        - group [ref=e38]:
+          - generic [ref=e39]: Password
+          - textbox "Password" [ref=e40]: Wrong123
+        - button "Sign in" [ref=e41]
+        - generic [ref=e42]:
+          - separator [ref=e43]
+          - generic [ref=e44]: or
+        - button "Sign in with Google" [ref=e45]
+        - paragraph [ref=e46]:
+          - text: New to PizzaHub?
+          - link "Create an account" [ref=e47] [cursor=pointer]:
+            - /url: /sign-up
+  - button "Open Next.js Dev Tools" [ref=e56] [cursor=pointer]
+  - alert [ref=e48]
+  - generic:
+    - region "Notifications":
+      - dialog "Sign in failed" [ref=e60]:
+        - generic [ref=e61]:
+          - generic [ref=e63]:
+            - heading "Sign in failed" [level=2] [ref=e64]
+            - paragraph [ref=e65]: Invalid email or password
+          - button [aria-hidden] [ref=e66]

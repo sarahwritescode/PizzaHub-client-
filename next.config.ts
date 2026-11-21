@@ -12,6 +12,19 @@ const nextConfig: NextConfig = {
       },
     },
   },
+  // The browser talks to /api/auth/* on THIS site and Next forwards it to the
+  // backend. That makes the session cookie first-party (same domain as the
+  // pages), so proxy.ts and the dashboard layouts can see it in production.
+  async rewrites() {
+    const backend = process.env.NEXT_PUBLIC_BETTER_AUTH_URL?.replace(/\/$/, "");
+    if (!backend) return [];
+    return [
+      {
+        source: "/api/auth/:path*",
+        destination: `${backend}/api/auth/:path*`,
+      },
+    ];
+  },
 };
 
 export default nextConfig;
