@@ -5,9 +5,15 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
+  --color-cream: var(--cream);
+  --color-ink: var(--ink);
+  --color-tomato: var(--tomato);
+  --color-tomato-deep: var(--tomato-deep);
+  --color-crust: var(--crust);
+  --font-display: var(--font-bricolage);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-sans);
+  --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   --font-heading: var(--font-sans);
   --color-sidebar-ring: var(--sidebar-ring);
@@ -49,6 +55,13 @@
 }
 
 :root {
+  /* PizzaHub brand palette */
+  --cream: #fbf6ea;
+  --ink: #1c1713;
+  --tomato: #d93015;
+  --tomato-deep: #b8240d;
+  --crust: #eadfc8;
+
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);

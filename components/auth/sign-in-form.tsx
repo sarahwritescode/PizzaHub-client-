@@ -41,11 +41,23 @@ export function SignInForm() {
   }, [blocked]);
 
   async function onSubmit(values: SignInValues) {
-    const { data, error } = await authClient.signIn.email({
-      email: values.email,
-      password: values.password,
-    });
+    let result: Awaited<ReturnType<typeof authClient.signIn.email>>;
+    try {
+      result = await authClient.signIn.email({
+        email: values.email,
+        password: values.password,
+      });
+    } catch {
+      // fetch() throws when the auth server can't be reached at all
+      toast.add({
+        type: "error",
+        title: "Can't reach the server",
+        description: "Check your connection and try again in a moment.",
+      });
+      return;
+    }
 
+    const { data, error } = result;
     if (error) {
       toast.add({
         type: "error",

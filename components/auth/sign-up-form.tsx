@@ -26,14 +26,26 @@ export function SignUpForm() {
   });
 
   async function onSubmit(values: SignUpValues) {
-    const { error } = await authClient.signUp.email({
-      name: values.name,
-      email: values.email,
-      password: values.password,
-      image: values.image || undefined,
-      role: values.role,
-    });
+    let result: Awaited<ReturnType<typeof authClient.signUp.email>>;
+    try {
+      result = await authClient.signUp.email({
+        name: values.name,
+        email: values.email,
+        password: values.password,
+        image: values.image || undefined,
+        role: values.role,
+      });
+    } catch {
+      // fetch() throws when the auth server can't be reached at all
+      toast.add({
+        type: "error",
+        title: "Can't reach the server",
+        description: "Check your connection and try again in a moment.",
+      });
+      return;
+    }
 
+    const { error } = result;
     if (error) {
       toast.add({
         type: "error",

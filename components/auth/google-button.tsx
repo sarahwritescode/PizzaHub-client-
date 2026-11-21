@@ -35,18 +35,20 @@ export function GoogleButton({ label }: { label: string }) {
     setPending(true);
     // /dashboard is a server route that sends the user to their role's dashboard.
     const origin = window.location.origin;
-    const { error } = await authClient.signIn.social({
-      provider: "google",
-      callbackURL: `${origin}/dashboard`,
-      errorCallbackURL: `${origin}/sign-in`,
-    });
-    if (error) {
-      setPending(false);
-      toast.add({
-        type: "error",
-        title: "Google sign-in failed",
-        description: error.message || "Please try again.",
+    let message: string | null = null;
+    try {
+      const { error } = await authClient.signIn.social({
+        provider: "google",
+        callbackURL: `${origin}/dashboard`,
+        errorCallbackURL: `${origin}/sign-in`,
       });
+      if (error) message = error.message || "Please try again.";
+    } catch {
+      message = "Can't reach the server. Please try again in a moment.";
+    }
+    if (message) {
+      setPending(false);
+      toast.add({ type: "error", title: "Google sign-in failed", description: message });
     }
   }
 
