@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { AuthActions } from "@/components/navbar/auth-actions";
 import { Brand } from "@/components/navbar/brand";
 import { MobileMenu } from "@/components/navbar/mobile-menu";
@@ -11,13 +12,18 @@ export function Navbar() {
           <Brand />
         </div>
 
-        <DesktopNav />
+        {/* usePathname() is request data on dynamic routes such as /menu/[id], so these sit behind Suspense. */}
+        <Suspense fallback={<div className="hidden h-9 w-72 lg:block" aria-hidden="true" />}>
+          <DesktopNav />
+        </Suspense>
 
         <div className="flex flex-1 items-center justify-end">
           <div className="hidden lg:block">
             <AuthActions layout="inline" />
           </div>
-          <MobileMenu />
+          <Suspense fallback={<div className="size-10 lg:hidden" aria-hidden="true" />}>
+            <MobileMenu />
+          </Suspense>
         </div>
       </div>
     </header>

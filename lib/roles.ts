@@ -8,6 +8,19 @@ export function isRole(value: unknown): value is Role {
   return typeof value === "string" && (ROLES as readonly string[]).includes(value);
 }
 
+/**
+ * Validates the `next` query param. Only a menu item path is honoured, so it
+ * can never point at another site.
+ */
+export function safeNextPath(next: string | null): string | undefined {
+  return next && /^\/menu\/[0-9a-f]{24}$/i.test(next) ? next : undefined;
+}
+
+/** Where to send a user after signing in. */
+export function postSignInPath(next: string | null, role: unknown): string {
+  return safeNextPath(next) ?? dashboardPathFor(role);
+}
+
 export function dashboardPathFor(role: unknown): string {
   return isRole(role) ? `/dashboard/${role}` : "/dashboard/customer";
 }

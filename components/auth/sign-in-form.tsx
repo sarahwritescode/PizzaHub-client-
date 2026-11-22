@@ -11,13 +11,15 @@ import { Field, FieldError, FieldGroup, FieldLabel, FieldSeparator } from "@/com
 import { toast } from "@/components/ui/toast";
 import { GoogleButton } from "@/components/auth/google-button";
 import { authClient } from "@/lib/auth-client";
-import { dashboardPathFor } from "@/lib/roles";
+import { postSignInPath, safeNextPath } from "@/lib/roles";
 import { signInSchema, type SignInValues } from "@/lib/validation";
 
 export function SignInForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const blocked = searchParams.get("blocked") === "1";
+  // Set by proxy.ts when a signed-out visitor opened a menu item.
+  const next = searchParams.get("next");
 
   const {
     register,
@@ -78,7 +80,7 @@ export function SignInForm() {
     }
 
     toast.add({ type: "success", title: "Signed in", description: "Welcome back!" });
-    router.push(dashboardPathFor(data.user.role));
+    router.push(postSignInPath(next, data.user.role));
     router.refresh();
   }
 
@@ -115,7 +117,10 @@ export function SignInForm() {
 
         <FieldSeparator>or</FieldSeparator>
 
-        <GoogleButton label="Sign in with Google" />
+        <GoogleButton
+          label="Sign in with Google"
+          returnTo={safeNextPath(next)}
+        />
 
         <p className="text-center text-sm text-muted-foreground">
           New to PizzaHub?{" "}

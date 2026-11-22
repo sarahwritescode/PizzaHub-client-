@@ -94,7 +94,9 @@ export function formatMenuPrice(price: number): string {
   }).format(price);
 }
 
-type ApiResult<T> = { ok: true; data: T } | { ok: false; message: string };
+type ApiResult<T> =
+  | { ok: true; data: T }
+  | { ok: false; message: string; status?: number };
 
 function apiBaseUrl(): string | undefined {
   const base =
@@ -115,6 +117,7 @@ async function getJson<T>(path: string): Promise<ApiResult<T>> {
       return {
         ok: false,
         message: body?.message ?? `The server responded with ${response.status}.`,
+        status: response.status,
       };
     }
     return { ok: true, data: body as T };
@@ -148,6 +151,26 @@ export async function fetchMenuItems(
 
 export async function fetchMenuCategories(): Promise<ApiResult<MenuCategory[]>> {
   const result = await getJson<{ data: MenuCategory[] }>("/api/categories");
+  if (!result.ok) return result;
+  return { ok: true, data: result.data.data };
+}
+
+/** The API only accepts 24-character hex ObjectIds and answers 400 otherwise. */
+export function isMenuItemId(id: string): boolean {
+  return /^[0-9a-f]{24}$/i.test(id);
+}
+
+/**
+ * One item by id. `status: 404` on a failure means the item does not exist or
+ * is not public; the caller should show a not-found page.
+ */
+export async function fetchMenuItem(id: string): Promise<ApiResult<MenuItem>> {
+  if (!isMenuItemId(id)) {
+    return { ok: false, message: "Item not found.", status: 404 };
+  }
+  const result = await getJson<{ data: MenuItem }>(
+    `/api/menu-items/${encodeURIComponent(id)}`,
+  );
   if (!result.ok) return result;
   return { ok: true, data: result.data.data };
 }

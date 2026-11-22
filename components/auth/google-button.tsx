@@ -28,7 +28,14 @@ function GoogleIcon() {
   );
 }
 
-export function GoogleButton({ label }: { label: string }) {
+export function GoogleButton({
+  label,
+  returnTo = "/dashboard",
+}: {
+  label: string;
+  /** Same-site path to open after signing in. */
+  returnTo?: string;
+}) {
   const [pending, setPending] = useState(false);
 
   async function handleClick() {
@@ -39,7 +46,7 @@ export function GoogleButton({ label }: { label: string }) {
     try {
       const { error } = await authClient.signIn.social({
         provider: "google",
-        callbackURL: `${origin}/dashboard`,
+        callbackURL: `${origin}${returnTo}`,
         errorCallbackURL: `${origin}/sign-in`,
       });
       if (error) message = error.message || "Please try again.";
