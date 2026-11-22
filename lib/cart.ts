@@ -2,12 +2,14 @@
 
 import { useSyncExternalStore } from "react";
 
+/**
+ * One line per menu item. The orders API takes a single item per order and has
+ * no quantity, so a line is either in the cart or it is not.
+ */
 export type CartItem = {
   id: string;
   name: string;
   price: number;
-  currency: string;
-  quantity: number;
 };
 
 const STORAGE_KEY = "pizzahub-cart";
@@ -20,7 +22,19 @@ const listeners = new Set<() => void>();
 function read(): readonly CartItem[] {
   try {
     const parsed: unknown = JSON.parse(localStorage.getItem(STORAGE_KEY) ?? "[]");
-    return Array.isArray(parsed) ? (parsed as CartItem[]) : EMPTY;
+    if (!Array.isArray(parsed)) return EMPTY;
+    // Keep only the fields we use (older saves carried a quantity) and drop duplicates.
+    const byId = new Map<string, CartItem>();
+    for (const entry of parsed) {
+      if (
+        typeof entry?.id === "string" &&
+        typeof entry.name === "string" &&
+        typeof entry.price === "number"
+      ) {
+        byId.set(entry.id, { id: entry.id, name: entry.name, price: entry.price });
+      }
+    }
+    return [...byId.values()];
   } catch {
     return EMPTY;
   }
@@ -55,15 +69,11 @@ function subscribe(notify: () => void) {
   };
 }
 
-export function addToCart(item: Omit<CartItem, "quantity">) {
-  const existing = cache.find((entry) => entry.id === item.id);
-  commit(
-    existing
-      ? cache.map((entry) =>
-          entry.id === item.id ? { ...entry, quantity: entry.quantity + 1 } : entry
-        )
-      : [...cache, { ...item, quantity: 1 }]
-  );
+/** Returns false when the item was already in the cart. */
+export function addToCart(item: CartItem): boolean {
+  if (cache.some((entry) => entry.id === item.id)) return false;
+  commit([...cache, item]);
+  return true;
 }
 
 export function removeFromCart(id: string) {
@@ -76,6 +86,6 @@ export function useCart() {
     () => cache,
     () => EMPTY
   );
-  const count = items.reduce((sum, entry) => sum + entry.quantity, 0);
-  return { items, count };
+  const total = items.reduce((sum, entry) => sum + entry.price, 0);
+  return { items, count: items.length, total };
 }

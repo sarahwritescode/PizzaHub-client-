@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, CalendarDays, MapPin } from "lucide-react";
+import { AddToCartButton } from "@/components/menu/add-to-cart-button";
 import { ItemGallery } from "@/components/menu/item-gallery";
 import { buildMenuHref, fetchMenuItem, formatMenuPrice } from "@/lib/menu-api";
 
@@ -81,15 +82,7 @@ export async function ItemDetails({ params }: { params: Promise<{ id: string }> 
         </dl>
 
         <div className="mt-8 flex flex-wrap items-center gap-3">
-          {/* Orders are not available in the backend yet, so there is no real action to offer. */}
-          <button
-            type="button"
-            disabled
-            title="Ordering is coming soon"
-            className="inline-flex h-12 cursor-not-allowed items-center justify-center rounded-full bg-ink/10 px-8 text-sm font-semibold text-ink/45"
-          >
-            Ordering is coming soon
-          </button>
+          <AddToCartButton id={item._id} name={item.itemName} price={item.price} />
           <Link
             href="/menu"
             className="inline-flex h-12 items-center justify-center gap-2 rounded-full border border-crust bg-white px-6 text-sm font-semibold text-ink outline-none transition-colors hover:border-tomato hover:text-tomato focus-visible:ring-2 focus-visible:ring-tomato focus-visible:ring-offset-2 focus-visible:ring-offset-cream"
