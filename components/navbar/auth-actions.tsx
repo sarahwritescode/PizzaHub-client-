@@ -3,12 +3,19 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { LayoutDashboardIcon, LogOutIcon } from "lucide-react";
+import { ChevronDownIcon, LogOutIcon } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { buttonVariants } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { toast } from "@/components/ui/toast";
 import { authClient } from "@/lib/auth-client";
-import { dashboardPathFor } from "@/lib/roles";
 import { cn } from "@/lib/utils";
 
 type Props = {
@@ -102,42 +109,24 @@ export function AuthActions({ layout, onNavigate }: Props) {
   }
 
   const { user } = session;
-  const dashboardHref = dashboardPathFor(user.role);
 
-  return (
-    <div className={cn("flex gap-3", stacked ? "flex-col" : "items-center")}>
-      <div className="flex items-center gap-2.5">
-        <Avatar size="lg">
-          {user.image ? <AvatarImage src={user.image} alt="" /> : null}
-          <AvatarFallback className="bg-crust text-sm font-semibold text-ink">
-            {initials(user.name)}
-          </AvatarFallback>
-        </Avatar>
-        <span
-          className={cn(
-            "max-w-32 truncate text-sm font-medium text-ink",
-            stacked ? "max-w-full text-base" : "hidden xl:inline"
-          )}
-        >
-          {user.name}
-        </span>
-      </div>
+  const avatar = (
+    <Avatar size="lg">
+      {user.image ? <AvatarImage src={user.image} alt="" /> : null}
+      <AvatarFallback className="bg-crust text-sm font-semibold text-ink">
+        {initials(user.name)}
+      </AvatarFallback>
+    </Avatar>
+  );
 
-      <div className={cn("flex gap-2", stacked ? "flex-col" : "items-center")}>
-        <Link
-          href={dashboardHref}
-          onClick={onNavigate}
-          className={cn(
-            buttonVariants(),
-            pill,
-            "gap-1.5 bg-tomato text-white hover:bg-tomato-deep",
-            stacked && "h-11 w-full text-base",
-            focusRing
-          )}
-        >
-          <LayoutDashboardIcon aria-hidden="true" />
-          Dashboard
-        </Link>
+  // Mobile menu: name, then a full-width Sign out button (Dashboard is in the link list above).
+  if (stacked) {
+    return (
+      <div className="flex flex-col gap-3">
+        <div className="flex items-center gap-2.5">
+          {avatar}
+          <span className="truncate text-base font-medium text-ink">{user.name}</span>
+        </div>
         <button
           type="button"
           onClick={handleSignOut}
@@ -145,8 +134,7 @@ export function AuthActions({ layout, onNavigate }: Props) {
           className={cn(
             buttonVariants({ variant: "ghost" }),
             pill,
-            "gap-1.5 text-ink hover:bg-crust/60",
-            stacked && "h-11 w-full border border-crust text-base",
+            "h-11 w-full gap-1.5 border border-crust text-base text-ink hover:bg-crust/60",
             focusRing
           )}
         >
@@ -154,6 +142,31 @@ export function AuthActions({ layout, onNavigate }: Props) {
           {signingOut ? "Signing out..." : "Sign out"}
         </button>
       </div>
-    </div>
+    );
+  }
+
+  // Desktop: avatar + name + chevron opening an account menu.
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger
+        aria-label="Account menu"
+        className={cn(
+          "inline-flex h-11 items-center gap-2 rounded-full py-1 pr-2 pl-1 text-sm font-medium text-ink transition-colors hover:bg-crust/60 data-popup-open:bg-crust/60",
+          focusRing
+        )}
+      >
+        {avatar}
+        <span className="hidden max-w-32 truncate xl:inline">{user.name}</span>
+        <ChevronDownIcon aria-hidden="true" className="size-4 text-ink/65" />
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" className="w-52">
+        <DropdownMenuLabel className="truncate">{user.name}</DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem onClick={handleSignOut} disabled={signingOut}>
+          <LogOutIcon aria-hidden="true" />
+          {signingOut ? "Signing out..." : "Sign out"}
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }

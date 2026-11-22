@@ -15,13 +15,15 @@ import {
 } from "@/components/ui/sheet";
 import { AuthActions } from "@/components/navbar/auth-actions";
 import { Brand } from "@/components/navbar/brand";
-import { NAV_LINKS, isActivePath } from "@/lib/nav";
+import { useNavLinks } from "@/components/navbar/use-nav-links";
+import { isActivePath } from "@/lib/nav";
 import { cn } from "@/lib/utils";
 
 // Hamburger + slide-in panel for screens below the lg breakpoint.
 export function MobileMenu() {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
+  const links = useNavLinks();
   const close = () => setOpen(false);
 
   return (
@@ -42,7 +44,7 @@ export function MobileMenu() {
 
         <nav aria-label="Mobile" className="flex-1 overflow-y-auto p-4">
           <ul className="flex flex-col gap-1">
-            {NAV_LINKS.map((link) => {
+            {links.map((link) => {
               const active = isActivePath(pathname, link.href);
               return (
                 <li key={link.href}>

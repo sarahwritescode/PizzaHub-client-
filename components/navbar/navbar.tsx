@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import { AuthActions } from "@/components/navbar/auth-actions";
 import { Brand } from "@/components/navbar/brand";
+import { CartButton } from "@/components/navbar/cart-button";
 import { MobileMenu } from "@/components/navbar/mobile-menu";
 import { DesktopNav } from "@/components/navbar/nav-links";
 
@@ -17,7 +18,8 @@ export function Navbar() {
           <DesktopNav />
         </Suspense>
 
-        <div className="flex flex-1 items-center justify-end">
+        <div className="flex flex-1 items-center justify-end gap-1 lg:gap-3">
+          <CartButton />
           <div className="hidden lg:block">
             <AuthActions layout="inline" />
           </div>
