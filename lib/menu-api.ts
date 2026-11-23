@@ -15,7 +15,21 @@ export type MenuItem = {
   location: string;
   images: string[];
   createdAt: string;
+  /** Who sells it. Never contains an email or an id. */
+  vendor?: MenuVendor;
 };
+
+export type MenuVendor = {
+  name: string;
+  businessName: string | null;
+  /** True while the vendor has an active Premium subscription. */
+  isPremium: boolean;
+};
+
+/** The name customers know the vendor by: the business name, else the account name. */
+export function vendorLabel(vendor: MenuVendor): string {
+  return vendor.businessName?.trim() || vendor.name;
+}
 
 // Defined in lib/api/types.ts (shared by every list endpoint).
 export type { Pagination };
@@ -35,6 +49,7 @@ export type SortValue = (typeof SORT_OPTIONS)[number]["value"];
 export type MenuQuery = {
   category?: string;
   search?: string;
+  location?: string;
   sort: SortValue;
   page: number;
 };
@@ -52,6 +67,7 @@ function first(value: string | string[] | undefined): string | undefined {
 export function parseMenuQuery(raw: RawParams): MenuQuery {
   const category = first(raw.category)?.trim().slice(0, 100) || undefined;
   const search = first(raw.search)?.trim().slice(0, 100) || undefined;
+  const location = first(raw.location)?.trim().slice(0, 100) || undefined;
 
   const sortParam = first(raw.sort);
   const sort =
@@ -63,7 +79,7 @@ export function parseMenuQuery(raw: RawParams): MenuQuery {
       ? pageNumber
       : 1;
 
-  return { category, search, sort, page };
+  return { category, search, location, sort, page };
 }
 
 /** Builds a /menu URL, leaving out values that are already the default. */
@@ -71,6 +87,7 @@ export function buildMenuHref(query: Partial<MenuQuery>): string {
   const params = new URLSearchParams();
   if (query.category) params.set("category", query.category);
   if (query.search) params.set("search", query.search);
+  if (query.location) params.set("location", query.location);
   if (query.sort && query.sort !== "newest") params.set("sort", query.sort);
   if (query.page && query.page > 1) params.set("page", String(query.page));
   const qs = params.toString();
@@ -134,6 +151,7 @@ export async function fetchMenuItems(
   });
   if (query.category) params.set("category", query.category);
   if (query.search) params.set("search", query.search);
+  if (query.location) params.set("location", query.location);
 
   const result = await getJson<{ data: MenuItem[]; pagination: Pagination }>(
     `/api/menu-items?${params}`,
@@ -143,6 +161,16 @@ export async function fetchMenuItems(
     ok: true,
     data: { items: result.data.data, pagination: result.data.pagination },
   };
+}
+
+/**
+ * The home page's featured items (server decides: Premium vendors first, then the
+ * newest approved items).
+ */
+export async function fetchFeaturedMenuItems(): Promise<ApiResult<MenuItem[]>> {
+  const result = await getJson<{ data: MenuItem[] }>("/api/menu-items/featured");
+  if (!result.ok) return result;
+  return { ok: true, data: result.data.data };
 }
 
 export async function fetchMenuCategories(): Promise<ApiResult<MenuCategory[]>> {

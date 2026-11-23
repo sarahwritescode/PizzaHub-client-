@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { MapPin, PizzaIcon } from "lucide-react";
+import { VendorInfo } from "@/components/menu/vendor-info";
 import { formatMenuPrice, getMenuItemHref, type MenuItem } from "@/lib/menu-api";
 
 const buttonBase =
@@ -8,7 +9,7 @@ const buttonBase =
 
 /** A real, admin-approved menu item on the home page. */
 export function ProductCard({ item }: { item: MenuItem }) {
-  const { _id, itemName, description, price, category, location, images } = item;
+  const { _id, itemName, description, price, category, location, images, vendor } = item;
   const image = images.find((src) => /^https?:\/\//i.test(src));
 
   return (
@@ -42,6 +43,11 @@ export function ProductCard({ item }: { item: MenuItem }) {
           </p>
         </div>
         <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-ink/65 text-pretty">{description}</p>
+        {vendor && (
+          <div className="mt-3 min-w-0">
+            <VendorInfo vendor={vendor} />
+          </div>
+        )}
         {location && (
           <p className="mt-2 inline-flex items-center gap-1 text-xs font-medium text-ink/60">
             <MapPin aria-hidden="true" className="size-3.5" />

@@ -1,10 +1,11 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, CalendarDays, MapPin } from "lucide-react";
+import { ArrowLeft, CalendarDays, MapPin, StoreIcon } from "lucide-react";
 import { AddToCartButton } from "@/components/menu/add-to-cart-button";
 import { ItemGallery } from "@/components/menu/item-gallery";
 import { OrderDialog } from "@/components/menu/order-dialog";
-import { buildMenuHref, fetchMenuItem, formatMenuPrice } from "@/lib/menu-api";
+import { PremiumBadge } from "@/components/menu/vendor-info";
+import { buildMenuHref, fetchMenuItem, formatMenuPrice, vendorLabel } from "@/lib/menu-api";
 
 const backLinkClass =
   "inline-flex h-11 items-center justify-center gap-2 rounded-full bg-tomato px-6 text-sm font-semibold text-cream outline-none transition-colors hover:bg-tomato-deep focus-visible:ring-2 focus-visible:ring-tomato focus-visible:ring-offset-2 focus-visible:ring-offset-cream";
@@ -62,6 +63,18 @@ export async function ItemDetails({ params }: { params: Promise<{ id: string }> 
         </p>
 
         <dl className="mt-8 grid gap-4 border-t border-crust pt-6 text-sm sm:grid-cols-2">
+          {item.vendor && (
+            <div className="flex items-start gap-3">
+              <StoreIcon aria-hidden="true" className="mt-0.5 size-5 shrink-0 text-tomato" />
+              <div className="min-w-0">
+                <dt className="text-ink/55">Sold by</dt>
+                <dd className="flex flex-wrap items-center gap-2 font-medium text-ink">
+                  {vendorLabel(item.vendor)}
+                  {item.vendor.isPremium && <PremiumBadge />}
+                </dd>
+              </div>
+            </div>
+          )}
           {item.location && (
             <div className="flex items-start gap-3">
               <MapPin aria-hidden="true" className="mt-0.5 size-5 shrink-0 text-tomato" />

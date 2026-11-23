@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Search } from "lucide-react";
+import { MapPin, Search } from "lucide-react";
 import {
   SORT_OPTIONS,
   buildMenuHref,
@@ -30,7 +30,7 @@ export function MenuToolbar({
         className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1 sm:mx-0 sm:flex-wrap sm:justify-center sm:overflow-visible sm:px-0"
       >
         <Link
-          href={buildMenuHref({ search: query.search, sort: query.sort })}
+          href={buildMenuHref({ search: query.search, location: query.location, sort: query.sort })}
           aria-current={allActive ? "page" : undefined}
           className={`${pillBase} ${
             allActive
@@ -48,6 +48,7 @@ export function MenuToolbar({
               href={buildMenuHref({
                 category: category.name,
                 search: query.search,
+                location: query.location,
                 sort: query.sort,
               })}
               aria-current={active ? "page" : undefined}
@@ -92,7 +93,25 @@ export function MenuToolbar({
             name="search"
             maxLength={100}
             defaultValue={query.search}
-            placeholder="Search pizzas, ingredients or places"
+            placeholder="Search pizzas or ingredients"
+            className={`${fieldBase} w-full pl-10`}
+          />
+        </div>
+        <div className="relative sm:w-48">
+          <label htmlFor="menu-location" className="sr-only">
+            Filter by location
+          </label>
+          <MapPin
+            aria-hidden="true"
+            className="pointer-events-none absolute top-1/2 left-4 size-4 -translate-y-1/2 text-ink/50"
+          />
+          <input
+            id="menu-location"
+            type="text"
+            name="location"
+            maxLength={100}
+            defaultValue={query.location}
+            placeholder="Location"
             className={`${fieldBase} w-full pl-10`}
           />
         </div>

@@ -58,7 +58,7 @@ export async function MenuResults({
 
   const { items, pagination } = itemsResult.data;
   const categories = categoriesResult.ok ? categoriesResult.data : [];
-  const isFiltered = Boolean(query.category || query.search);
+  const isFiltered = Boolean(query.category || query.search || query.location);
 
   return (
     <div className="flex flex-col gap-8 sm:gap-10">
@@ -68,7 +68,7 @@ export async function MenuResults({
         isFiltered ? (
           <Notice
             title="No pizzas match your filters"
-            body="Try a different category or search term."
+            body="Try a different category, location or search term."
             action={{ href: "/menu", label: "Clear filters" }}
           />
         ) : (

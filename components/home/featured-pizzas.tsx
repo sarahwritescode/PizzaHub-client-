@@ -1,15 +1,14 @@
 import Link from "next/link";
 import { InView } from "@/components/home/in-view";
 import { ProductCard } from "@/components/home/product-card";
-import { fetchMenuItems } from "@/lib/menu-api";
+import { fetchFeaturedMenuItems } from "@/lib/menu-api";
 
-const FEATURED_COUNT = 6;
-
-// The newest approved items from the backend: an item shows up here as soon as
-// an admin approves it (and leaves when it is deactivated or deleted).
+// The backend's featured items: Premium vendors' approved items first, then the
+// newest approved ones. An item shows up here as soon as an admin approves it
+// (and leaves when it is deactivated or deleted).
 export async function FeaturedPizzas() {
-  const result = await fetchMenuItems({ sort: "newest", page: 1 }, FEATURED_COUNT);
-  const items = result.ok ? result.data.items : [];
+  const result = await fetchFeaturedMenuItems();
+  const items = result.ok ? result.data : [];
 
   return (
     <section

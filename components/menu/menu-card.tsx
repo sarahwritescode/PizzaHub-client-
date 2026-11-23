@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { MapPin, PizzaIcon } from "lucide-react";
+import { VendorInfo } from "@/components/menu/vendor-info";
 import {
   formatMenuPrice,
   getMenuItemHref,
@@ -54,6 +55,12 @@ export function MenuCard({ item }: { item: MenuItem }) {
         <p className="mt-1.5 line-clamp-2 text-sm leading-relaxed text-ink/65 sm:line-clamp-3">
           {item.description}
         </p>
+
+        {item.vendor && (
+          <div className="mt-2 min-w-0">
+            <VendorInfo vendor={item.vendor} />
+          </div>
+        )}
 
         <div className="mt-auto flex flex-wrap items-center gap-x-3 gap-y-1.5 pt-3 text-xs font-medium">
           <span className="rounded-full bg-tomato/10 px-2.5 py-1 text-tomato">
