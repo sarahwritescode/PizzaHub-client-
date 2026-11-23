@@ -10,8 +10,8 @@ export async function AdminShell({ children }: { children: ReactNode }) {
   const user = await requireRole("admin");
 
   return (
-    <div className="flex flex-1 flex-col bg-cream md:flex-row">
-      <aside className="border-b border-crust bg-white/60 p-3 md:w-64 md:shrink-0 md:border-r md:border-b-0 md:p-5">
+    <div className="flex flex-1 flex-col bg-page md:flex-row">
+      <aside className="border-b border-crust bg-surface/60 p-3 md:w-64 md:shrink-0 md:border-r md:border-b-0 md:p-5">
         <div className="mb-3 hidden md:block">
           <p className="text-xs font-semibold tracking-wide text-tomato uppercase">Admin</p>
           <p className="mt-1 truncate font-display text-lg font-bold text-ink">{user.name}</p>

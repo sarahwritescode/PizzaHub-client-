@@ -169,14 +169,14 @@ export function MenuManager() {
             placeholder="Search by name, category or location"
             value={search}
             onChange={(event) => setSearch(event.target.value)}
-            className="h-10 bg-white pl-9"
+            className="h-10 bg-surface pl-9"
           />
         </div>
         <select
           aria-label="Filter by status"
           value={status}
           onChange={(event) => changeStatus(event.target.value)}
-          className="h-10 w-full rounded-lg border border-input bg-white px-2.5 text-sm outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 sm:w-52"
+          className="h-10 w-full rounded-lg border border-input bg-surface px-2.5 text-sm outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 sm:w-52"
         >
           <option value="">All statuses</option>
           {MENU_STATUSES.map((value) => (
@@ -286,7 +286,7 @@ function MenuRow({
   const toggleDisabled = busy || !canToggle || (activating && limitBlocked);
 
   return (
-    <li className="flex flex-col gap-4 rounded-2xl border border-crust bg-white p-4 sm:flex-row sm:items-center">
+    <li className="flex flex-col gap-4 rounded-2xl border border-crust bg-surface p-4 sm:flex-row sm:items-center">
       <div className="flex min-w-0 flex-1 gap-4">
         <Thumb src={item.images[0]} alt={item.itemName} className="size-20 sm:size-24" />
         <div className="min-w-0 flex-1">

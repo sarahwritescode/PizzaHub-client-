@@ -7,7 +7,7 @@ import "./globals.css";
 export default function GlobalError({ retry }: { error: unknown; retry: () => void }) {
   return (
     <html lang="en">
-      <body className="flex min-h-screen items-center justify-center bg-cream px-4 text-ink">
+      <body className="flex min-h-screen items-center justify-center bg-page px-4 text-ink">
         <title>Something went wrong | PizzaHub</title>
         <div role="alert" className="max-w-md text-center">
           <h1 className="text-3xl font-extrabold sm:text-4xl">Something went wrong</h1>

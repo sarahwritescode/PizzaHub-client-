@@ -233,7 +233,7 @@ function MenuItemForm({ item }: { item?: VendorMenuItem }) {
         </p>
       )}
 
-      <div className="rounded-2xl border border-crust bg-white p-5 sm:p-6">
+      <div className="rounded-2xl border border-crust bg-surface p-5 sm:p-6">
         <FieldGroup>
           <Field data-invalid={!!errors.itemName}>
             <FieldLabel htmlFor="itemName">Item name</FieldLabel>
@@ -305,7 +305,7 @@ function MenuItemForm({ item }: { item?: VendorMenuItem }) {
         </FieldGroup>
       </div>
 
-      <div className="rounded-2xl border border-crust bg-white p-5 sm:p-6">
+      <div className="rounded-2xl border border-crust bg-surface p-5 sm:p-6">
         <h2 className="mb-3 font-display text-lg font-bold text-ink">Images</h2>
         <ImageUploader uploads={uploads} invalid={imagesError} />
       </div>

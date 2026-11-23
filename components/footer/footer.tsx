@@ -7,7 +7,7 @@ import { NAV_LINKS } from "@/lib/nav";
 import { LEGAL_LINKS, SITE_CONTACT, SOCIAL_LINKS } from "@/lib/site-config";
 
 const linkClass =
-  "rounded-sm text-ink/70 outline-none transition-colors hover:text-tomato focus-visible:ring-2 focus-visible:ring-tomato focus-visible:ring-offset-2 focus-visible:ring-offset-cream";
+  "rounded-sm text-ink/70 outline-none transition-colors hover:text-tomato focus-visible:ring-2 focus-visible:ring-tomato focus-visible:ring-offset-2 focus-visible:ring-offset-page";
 
 const headingClass = "font-display text-base font-bold text-ink";
 
@@ -49,7 +49,7 @@ export function Footer() {
   const { email, phone, address } = SITE_CONTACT;
 
   return (
-    <footer aria-labelledby="footer-heading" className="mt-auto border-t border-crust bg-cream">
+    <footer aria-labelledby="footer-heading" className="mt-auto border-t border-crust bg-page">
       <h2 id="footer-heading" className="sr-only">
         PizzaHub footer
       </h2>
@@ -71,7 +71,7 @@ export function Footer() {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={`PizzaHub on ${label}`}
-                    className="flex size-10 items-center justify-center rounded-full border border-crust bg-white text-ink transition-colors hover:border-tomato hover:bg-tomato hover:text-cream focus-visible:ring-2 focus-visible:ring-tomato focus-visible:ring-offset-2 focus-visible:ring-offset-cream focus-visible:outline-none"
+                    className="flex size-10 items-center justify-center rounded-full border border-crust bg-surface text-ink transition-colors hover:border-tomato hover:bg-tomato hover:text-cream focus-visible:ring-2 focus-visible:ring-tomato focus-visible:ring-offset-2 focus-visible:ring-offset-page focus-visible:outline-none"
                   >
                     <SocialIcon platform={platform} className="size-[1.125rem]" />
                   </a>
@@ -147,7 +147,7 @@ export function Footer() {
                 <li key={href}>
                   <Link
                     href={href}
-                    className="rounded-sm underline-offset-4 outline-none hover:underline focus-visible:ring-2 focus-visible:ring-cream"
+                    className="rounded-sm underline-offset-4 outline-none hover:underline focus-visible:ring-2 focus-visible:ring-page"
                   >
                     {label}
                   </Link>

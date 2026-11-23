@@ -62,7 +62,7 @@ export function OrdersList() {
 
 function OrderRow({ order }: { order: CustomerOrder }) {
   return (
-    <li className="flex flex-col gap-4 rounded-2xl border border-crust bg-white p-4 sm:flex-row sm:items-center">
+    <li className="flex flex-col gap-4 rounded-2xl border border-crust bg-surface p-4 sm:flex-row sm:items-center">
       <div className="flex min-w-0 flex-1 gap-4">
         <Thumb src={order.item?.images[0]} alt={order.item?.itemName ?? "Item"} className="size-20" />
         <div className="min-w-0 flex-1">

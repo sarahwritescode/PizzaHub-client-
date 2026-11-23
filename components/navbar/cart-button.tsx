@@ -33,7 +33,7 @@ export function CartButton() {
     >
       <SheetTrigger
         aria-label={count > 0 ? `Cart, ${count} ${count === 1 ? "item" : "items"}` : "Cart"}
-        className="relative inline-flex size-10 items-center justify-center rounded-full text-ink outline-none transition-colors hover:bg-crust/60 focus-visible:ring-2 focus-visible:ring-tomato focus-visible:ring-offset-2 focus-visible:ring-offset-cream"
+        className="relative inline-flex size-10 items-center justify-center rounded-full text-ink outline-none transition-colors hover:bg-crust/60 focus-visible:ring-2 focus-visible:ring-tomato focus-visible:ring-offset-2 focus-visible:ring-offset-page"
       >
         <ShoppingCartIcon aria-hidden="true" className="size-5" />
         {count > 0 && (
@@ -46,7 +46,7 @@ export function CartButton() {
         )}
       </SheetTrigger>
 
-      <SheetContent side="right" className="w-[85%] max-w-sm gap-0 bg-cream text-ink">
+      <SheetContent side="right" className="w-[85%] max-w-sm gap-0 bg-page text-ink">
         <SheetHeader className="border-b border-crust p-4">
           <SheetTitle className="font-display text-xl font-bold">
             {showCheckout ? "Checkout" : "Your cart"}
@@ -60,7 +60,7 @@ export function CartButton() {
             <Link
               href="/menu"
               onClick={() => setOpen(false)}
-              className="inline-flex h-10 items-center rounded-full bg-tomato px-5 text-sm font-semibold text-white outline-none transition-colors hover:bg-tomato-deep focus-visible:ring-2 focus-visible:ring-tomato focus-visible:ring-offset-2 focus-visible:ring-offset-cream"
+              className="inline-flex h-10 items-center rounded-full bg-tomato px-5 text-sm font-semibold text-white outline-none transition-colors hover:bg-tomato-deep focus-visible:ring-2 focus-visible:ring-tomato focus-visible:ring-offset-2 focus-visible:ring-offset-page"
             >
               Browse menu
             </Link>
@@ -101,7 +101,7 @@ export function CartButton() {
               <button
                 type="button"
                 onClick={() => setCheckingOut(true)}
-                className="inline-flex h-11 w-full items-center justify-center rounded-full bg-tomato text-sm font-semibold text-white outline-none transition-colors hover:bg-tomato-deep focus-visible:ring-2 focus-visible:ring-tomato focus-visible:ring-offset-2 focus-visible:ring-offset-cream"
+                className="inline-flex h-11 w-full items-center justify-center rounded-full bg-tomato text-sm font-semibold text-white outline-none transition-colors hover:bg-tomato-deep focus-visible:ring-2 focus-visible:ring-tomato focus-visible:ring-offset-2 focus-visible:ring-offset-page"
               >
                 Checkout
               </button>

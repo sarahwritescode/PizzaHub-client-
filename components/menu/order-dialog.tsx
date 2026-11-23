@@ -42,9 +42,9 @@ type Item = {
 type Step = "details" | "payment" | "done";
 
 const primaryClass =
-  "inline-flex h-12 w-full items-center justify-center gap-2 rounded-full bg-tomato px-6 text-sm font-semibold text-white outline-none transition-colors hover:bg-tomato-deep focus-visible:ring-2 focus-visible:ring-tomato focus-visible:ring-offset-2 focus-visible:ring-offset-cream disabled:cursor-not-allowed disabled:opacity-60";
+  "inline-flex h-12 w-full items-center justify-center gap-2 rounded-full bg-tomato px-6 text-sm font-semibold text-white outline-none transition-colors hover:bg-tomato-deep focus-visible:ring-2 focus-visible:ring-tomato focus-visible:ring-offset-2 focus-visible:ring-offset-page disabled:cursor-not-allowed disabled:opacity-60";
 const triggerClass =
-  "inline-flex h-12 items-center justify-center gap-2 rounded-full bg-tomato px-8 text-sm font-semibold text-cream outline-none transition-colors hover:bg-tomato-deep focus-visible:ring-2 focus-visible:ring-tomato focus-visible:ring-offset-2 focus-visible:ring-offset-cream disabled:cursor-not-allowed disabled:bg-ink/10 disabled:text-ink/60";
+  "inline-flex h-12 items-center justify-center gap-2 rounded-full bg-tomato px-8 text-sm font-semibold text-cream outline-none transition-colors hover:bg-tomato-deep focus-visible:ring-2 focus-visible:ring-tomato focus-visible:ring-offset-2 focus-visible:ring-offset-page disabled:cursor-not-allowed disabled:bg-ink/10 disabled:text-ink/60";
 const linkButtonClass =
   "inline-flex items-center justify-center rounded-full text-sm font-medium text-ink/65 outline-none transition-colors hover:text-ink focus-visible:ring-2 focus-visible:ring-tomato";
 
@@ -139,7 +139,7 @@ export function OrderDialog({ item }: { item: Item }) {
 
       <DialogContent
         className={cn(
-          "max-h-[calc(100dvh-2rem)] gap-5 overflow-y-auto bg-cream p-5 text-ink sm:p-7",
+          "max-h-[calc(100dvh-2rem)] gap-5 overflow-y-auto bg-page p-5 text-ink sm:p-7",
           wide ? "sm:max-w-3xl" : "sm:max-w-md"
         )}
       >
@@ -190,7 +190,7 @@ export function OrderDialog({ item }: { item: Item }) {
                     value={deliveryDate}
                     onChange={(event) => setDeliveryDate(event.target.value)}
                     aria-describedby={error ? ids.error : undefined}
-                    className="h-10 bg-white"
+                    className="h-10 bg-surface"
                   />
                 </div>
 
@@ -204,7 +204,7 @@ export function OrderDialog({ item }: { item: Item }) {
                     value={deliveryAddress}
                     onChange={(event) => setDeliveryAddress(event.target.value)}
                     aria-describedby={error ? ids.error : undefined}
-                    className="h-10 bg-white"
+                    className="h-10 bg-surface"
                   />
                 </div>
 
@@ -218,7 +218,7 @@ export function OrderDialog({ item }: { item: Item }) {
                     placeholder="Extra crispy, please..."
                     value={message}
                     onChange={(event) => setMessage(event.target.value)}
-                    className="bg-white"
+                    className="bg-surface"
                   />
                 </div>
 
@@ -328,7 +328,7 @@ export function OrderDialog({ item }: { item: Item }) {
 
 function DemoNotice() {
   return (
-    <div className="flex items-center gap-3 rounded-2xl border border-crust bg-white px-4 py-3">
+    <div className="flex items-center gap-3 rounded-2xl border border-crust bg-surface px-4 py-3">
       <span className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-emerald-50 text-emerald-700">
         <ShieldCheckIcon aria-hidden="true" className="size-5" />
       </span>

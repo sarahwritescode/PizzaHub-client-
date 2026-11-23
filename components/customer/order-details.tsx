@@ -114,7 +114,7 @@ export function OrderDetails({ id }: { id: string }) {
         <div className="grid gap-6 lg:grid-cols-3">
           <div className="space-y-6 lg:col-span-2">
             <ItemCard order={order} />
-            <section className="rounded-2xl border border-crust bg-white p-5" aria-label="Delivery">
+            <section className="rounded-2xl border border-crust bg-surface p-5" aria-label="Delivery">
               <h2 className="font-display text-lg font-bold text-ink">Delivery</h2>
               <dl className="mt-4 grid gap-4 text-sm sm:grid-cols-2">
                 <Detail icon={<CalendarDaysIcon aria-hidden="true" />} label="Delivery date">
@@ -136,7 +136,7 @@ export function OrderDetails({ id }: { id: string }) {
           </div>
 
           <div className="space-y-6">
-            <section className="rounded-2xl border border-crust bg-white p-5" aria-label="Order status">
+            <section className="rounded-2xl border border-crust bg-surface p-5" aria-label="Order status">
               <h2 className="font-display text-lg font-bold text-ink">Status</h2>
               <div className="mt-4">
                 <OrderTimeline status={order.status} createdAt={order.createdAt} />
@@ -177,7 +177,7 @@ export function OrderDetails({ id }: { id: string }) {
 function ItemCard({ order }: { order: CustomerOrder }) {
   const { item } = order;
   return (
-    <section className="rounded-2xl border border-crust bg-white p-5" aria-label="Item">
+    <section className="rounded-2xl border border-crust bg-surface p-5" aria-label="Item">
       <h2 className="font-display text-lg font-bold text-ink">Item</h2>
       {item ? (
         <div className="mt-4 flex gap-4">

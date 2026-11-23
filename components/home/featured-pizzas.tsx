@@ -14,7 +14,7 @@ export async function FeaturedPizzas() {
     <section
       id="featured-pizzas"
       aria-labelledby="featured-heading"
-      className="relative overflow-hidden bg-cream"
+      className="relative overflow-hidden bg-page"
     >
       <div className="mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8 lg:py-24">
         <InView className="mx-auto max-w-2xl text-center">
@@ -50,7 +50,7 @@ export async function FeaturedPizzas() {
             </div>
           </>
         ) : (
-          <p className="mx-auto mt-10 max-w-md rounded-3xl border border-crust bg-white px-6 py-10 text-center text-sm leading-relaxed text-ink/65">
+          <p className="mx-auto mt-10 max-w-md rounded-3xl border border-crust bg-surface px-6 py-10 text-center text-sm leading-relaxed text-ink/65">
             {result.ok
               ? "New pizzas will show up here as soon as they are approved."
               : "We couldn't load the menu right now. Please try again in a moment."}

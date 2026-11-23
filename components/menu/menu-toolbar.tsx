@@ -8,10 +8,10 @@ import {
 } from "@/lib/menu-api";
 
 const pillBase =
-  "inline-flex h-10 shrink-0 items-center gap-2 rounded-full border px-4 text-sm font-semibold whitespace-nowrap outline-none transition-colors duration-200 focus-visible:ring-2 focus-visible:ring-tomato focus-visible:ring-offset-2 focus-visible:ring-offset-cream";
+  "inline-flex h-10 shrink-0 items-center gap-2 rounded-full border px-4 text-sm font-semibold whitespace-nowrap outline-none transition-colors duration-200 focus-visible:ring-2 focus-visible:ring-tomato focus-visible:ring-offset-2 focus-visible:ring-offset-page";
 
 const fieldBase =
-  "h-11 rounded-full border border-crust bg-white px-4 text-sm text-ink outline-none transition-colors placeholder:text-ink/45 focus-visible:border-tomato focus-visible:ring-2 focus-visible:ring-tomato/30";
+  "h-11 rounded-full border border-crust bg-surface px-4 text-sm text-ink outline-none transition-colors placeholder:text-ink/45 focus-visible:border-tomato focus-visible:ring-2 focus-visible:ring-tomato/30";
 
 export function MenuToolbar({
   categories,
@@ -35,7 +35,7 @@ export function MenuToolbar({
           className={`${pillBase} ${
             allActive
               ? "border-tomato bg-tomato text-cream"
-              : "border-crust bg-white text-ink hover:border-tomato"
+              : "border-crust bg-surface text-ink hover:border-tomato"
           }`}
         >
           All
@@ -55,7 +55,7 @@ export function MenuToolbar({
               className={`${pillBase} ${
                 active
                   ? "border-tomato bg-tomato text-cream"
-                  : "border-crust bg-white text-ink hover:border-tomato"
+                  : "border-crust bg-surface text-ink hover:border-tomato"
               }`}
             >
               {category.name}
@@ -134,7 +134,7 @@ export function MenuToolbar({
         </div>
         <button
           type="submit"
-          className="h-11 rounded-full bg-ink px-6 text-sm font-semibold text-cream outline-none transition-colors hover:bg-tomato focus-visible:ring-2 focus-visible:ring-tomato focus-visible:ring-offset-2 focus-visible:ring-offset-cream"
+          className="h-11 rounded-full bg-ink px-6 text-sm font-semibold text-page outline-none transition-colors hover:bg-tomato focus-visible:ring-2 focus-visible:ring-tomato focus-visible:ring-offset-2 focus-visible:ring-offset-page"
         >
           Apply
         </button>

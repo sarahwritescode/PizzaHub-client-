@@ -169,7 +169,7 @@ export function MenuModeration() {
             value={searchInput}
             onChange={(event) => setSearchInput(event.target.value)}
             maxLength={100}
-            className="h-10 bg-white pl-9"
+            className="h-10 bg-surface pl-9"
           />
           <Button type="submit" variant="outline" className="h-10">
             Search
@@ -179,7 +179,7 @@ export function MenuModeration() {
           aria-label="Filter by status"
           value={status}
           onChange={(event) => changeStatus(event.target.value)}
-          className="h-10 w-full rounded-lg border border-input bg-white px-2.5 text-sm outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 sm:w-52"
+          className="h-10 w-full rounded-lg border border-input bg-surface px-2.5 text-sm outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 sm:w-52"
         >
           <option value="">All statuses</option>
           {MENU_STATUSES.map((value) => (
@@ -195,7 +195,7 @@ export function MenuModeration() {
             setCategory(event.target.value);
             setPage(1);
           }}
-          className="h-10 w-full rounded-lg border border-input bg-white px-2.5 text-sm outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 sm:w-52"
+          className="h-10 w-full rounded-lg border border-input bg-surface px-2.5 text-sm outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 sm:w-52"
         >
           <option value="">All categories</option>
           {categories.map((value) => (
@@ -276,7 +276,7 @@ function ModerationRow({
     : "Vendor account removed";
 
   return (
-    <li className="flex flex-col gap-4 rounded-2xl border border-crust bg-white p-4 lg:flex-row lg:items-center">
+    <li className="flex flex-col gap-4 rounded-2xl border border-crust bg-surface p-4 lg:flex-row lg:items-center">
       <div className="flex min-w-0 flex-1 gap-4">
         <Thumb src={item.images[0]} alt={item.itemName} className="size-20 sm:size-24" />
         <div className="min-w-0 flex-1">

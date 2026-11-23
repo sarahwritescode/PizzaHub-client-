@@ -21,7 +21,7 @@ type Props = {
 };
 
 const submitClass =
-  "inline-flex h-11 w-full items-center justify-center rounded-full bg-tomato text-sm font-semibold text-white outline-none transition-colors hover:bg-tomato-deep focus-visible:ring-2 focus-visible:ring-tomato focus-visible:ring-offset-2 focus-visible:ring-offset-cream disabled:cursor-not-allowed disabled:opacity-60";
+  "inline-flex h-11 w-full items-center justify-center rounded-full bg-tomato text-sm font-semibold text-white outline-none transition-colors hover:bg-tomato-deep focus-visible:ring-2 focus-visible:ring-tomato focus-visible:ring-offset-2 focus-visible:ring-offset-page disabled:cursor-not-allowed disabled:opacity-60";
 
 export function CheckoutForm({ items, total, onBack, onPlaced }: Props) {
   const { data: session, isPending } = authClient.useSession();
@@ -139,7 +139,7 @@ export function CheckoutForm({ items, total, onBack, onPlaced }: Props) {
             min={todayUtc()}
             value={deliveryDate}
             onChange={(event) => setDeliveryDate(event.target.value)}
-            className="h-10 bg-white"
+            className="h-10 bg-surface"
           />
         </div>
 
@@ -152,7 +152,7 @@ export function CheckoutForm({ items, total, onBack, onPlaced }: Props) {
             placeholder="House, road, area, city"
             value={deliveryAddress}
             onChange={(event) => setDeliveryAddress(event.target.value)}
-            className="bg-white"
+            className="bg-surface"
           />
         </div>
 
@@ -164,7 +164,7 @@ export function CheckoutForm({ items, total, onBack, onPlaced }: Props) {
             placeholder="Extra cheese, no onions..."
             value={message}
             onChange={(event) => setMessage(event.target.value)}
-            className="bg-white"
+            className="bg-surface"
           />
         </div>
       </div>

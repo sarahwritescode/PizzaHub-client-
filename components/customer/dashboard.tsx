@@ -42,7 +42,7 @@ export function CustomerDashboard() {
       {result?.ok && (
         <div className="space-y-6">
           <Stats orders={result.data.orders} total={result.data.total} />
-          <section className="rounded-2xl border border-crust bg-white p-5" aria-label="Recent orders">
+          <section className="rounded-2xl border border-crust bg-surface p-5" aria-label="Recent orders">
             <div className="flex items-center justify-between gap-3">
               <h2 className="font-display text-lg font-bold text-ink">Recent orders</h2>
               {result.data.total > 0 && (
@@ -69,7 +69,7 @@ export function CustomerDashboard() {
                   <li key={order._id}>
                     <Link
                       href={`/customer/orders/${order._id}`}
-                      className="flex items-center gap-3 rounded-lg py-3 outline-none transition-colors hover:bg-cream/70 focus-visible:ring-2 focus-visible:ring-tomato"
+                      className="flex items-center gap-3 rounded-lg py-3 outline-none transition-colors hover:bg-page/70 focus-visible:ring-2 focus-visible:ring-tomato"
                     >
                       <Thumb src={order.item?.images[0]} alt={order.item?.itemName ?? "Item"} className="size-12" />
                       <div className="min-w-0 flex-1">
@@ -113,7 +113,7 @@ function Stats({ orders, total }: { orders: { status: string }[]; total: number 
     <div>
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {cards.map((card) => (
-          <div key={card.label} className="rounded-2xl border border-crust bg-white p-5">
+          <div key={card.label} className="rounded-2xl border border-crust bg-surface p-5">
             <p className="text-sm font-medium text-ink/65">{card.label}</p>
             <p className="mt-2 font-display text-3xl font-extrabold text-ink tabular-nums">{card.value}</p>
             {card.hint && <p className="mt-1 text-xs text-ink/55">{card.hint}</p>}

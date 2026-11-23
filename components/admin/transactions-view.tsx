@@ -58,7 +58,7 @@ export function TransactionsView() {
             setStatus(event.target.value as TransactionStatus | "");
             setPage(1);
           }}
-          className="h-10 w-full rounded-lg border border-input bg-white px-2.5 text-sm outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 sm:w-52"
+          className="h-10 w-full rounded-lg border border-input bg-surface px-2.5 text-sm outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 sm:w-52"
         >
           <option value="">All statuses</option>
           {TRANSACTION_STATUSES.map((value) => (
@@ -77,7 +77,7 @@ export function TransactionsView() {
             setVendorId(event.target.value);
             setPage(1);
           }}
-          className="h-10 w-full rounded-lg border border-input bg-white px-2.5 text-sm outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 sm:w-64"
+          className="h-10 w-full rounded-lg border border-input bg-surface px-2.5 text-sm outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 sm:w-64"
         >
           <option value="">All vendors</option>
           {vendors.map((vendor) => (
@@ -115,7 +115,7 @@ export function TransactionsView() {
 function TransactionRow({ transaction }: { transaction: AdminTransaction }) {
   const { vendor } = transaction;
   return (
-    <li className="rounded-2xl border border-crust bg-white p-4 sm:p-5">
+    <li className="rounded-2xl border border-crust bg-surface p-4 sm:p-5">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="min-w-0">
           <p className="font-display text-xl font-bold text-ink tabular-nums">

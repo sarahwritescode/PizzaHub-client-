@@ -5,13 +5,13 @@ import { Reveal } from "@/components/home/reveal";
 import heroPizza from "@/public/images/hero-pizza.jpg";
 
 const ctaBase =
-  "group inline-flex h-12 items-center justify-center gap-2 rounded-full px-7 text-base font-semibold outline-none transition-colors duration-200 focus-visible:ring-2 focus-visible:ring-tomato focus-visible:ring-offset-2 focus-visible:ring-offset-cream motion-safe:active:scale-[0.98]";
+  "group inline-flex h-12 items-center justify-center gap-2 rounded-full px-7 text-base font-semibold outline-none transition-colors duration-200 focus-visible:ring-2 focus-visible:ring-tomato focus-visible:ring-offset-2 focus-visible:ring-offset-page motion-safe:active:scale-[0.98]";
 
 export function Hero() {
   return (
     <section
       aria-labelledby="hero-heading"
-      className="relative isolate overflow-hidden bg-cream"
+      className="relative isolate overflow-hidden bg-page"
     >
       {/* Background accents */}
       <div
@@ -27,7 +27,7 @@ export function Hero() {
         {/* Copy */}
         <div className="flex flex-col items-start">
           <Reveal y={16}>
-            <p className="inline-flex items-center gap-2 rounded-full border border-crust bg-white/70 py-1.5 pr-4 pl-2 text-sm font-medium text-ink">
+            <p className="inline-flex items-center gap-2 rounded-full border border-crust bg-surface/70 py-1.5 pr-4 pl-2 text-sm font-medium text-ink">
               <span className="flex size-6 items-center justify-center rounded-full bg-tomato text-cream">
                 <MapPin className="size-3.5" strokeWidth={2.5} />
               </span>
@@ -65,7 +65,7 @@ export function Hero() {
               </Link>
               <Link
                 href="/menu"
-                className={`${ctaBase} border-2 border-ink bg-transparent text-ink hover:bg-ink hover:text-cream`}
+                className={`${ctaBase} border-2 border-ink bg-transparent text-ink hover:bg-ink hover:text-page`}
               >
                 Order Now
               </Link>
@@ -88,7 +88,7 @@ export function Hero() {
               delay={0.1}
               className="absolute bottom-0 left-0 aspect-square w-[88%]"
             >
-              <div className="relative size-full overflow-hidden rounded-full shadow-[0_30px_60px_-20px_rgb(28_23_19/0.55)] ring-10 ring-cream">
+              <div className="relative size-full overflow-hidden rounded-full shadow-[0_30px_60px_-20px_rgb(28_23_19/0.55)] ring-10 ring-page">
                 <Image
                   src={heroPizza}
                   alt="A freshly baked Margherita pizza with melted mozzarella and basil leaves"
@@ -102,7 +102,7 @@ export function Hero() {
             </Reveal>
 
             <Reveal y={20} delay={0.5} className="absolute right-0 bottom-[10%]">
-              <div className="flex items-center gap-3 rounded-2xl bg-white py-3 pr-5 pl-3 shadow-[0_16px_40px_-16px_rgb(28_23_19/0.45)]">
+              <div className="flex items-center gap-3 rounded-2xl bg-surface py-3 pr-5 pl-3 shadow-[0_16px_40px_-16px_rgb(28_23_19/0.45)]">
                 <span className="flex size-10 items-center justify-center rounded-xl bg-tomato/10 text-tomato">
                   <Flame className="size-5" strokeWidth={2.25} />
                 </span>

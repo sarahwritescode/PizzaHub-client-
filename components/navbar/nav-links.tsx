@@ -7,7 +7,7 @@ import { isActivePath } from "@/lib/nav";
 import { useNavLinks } from "@/components/navbar/use-nav-links";
 
 const focusRing =
-  "outline-none focus-visible:ring-2 focus-visible:ring-tomato focus-visible:ring-offset-2 focus-visible:ring-offset-cream";
+  "outline-none focus-visible:ring-2 focus-visible:ring-tomato focus-visible:ring-offset-2 focus-visible:ring-offset-page";
 
 // Desktop navigation (hidden below the lg breakpoint, where the hamburger takes over).
 export function DesktopNav() {

@@ -34,7 +34,7 @@ export function EmptyState({
   action?: ReactNode;
 }) {
   return (
-    <div className="flex flex-col items-center gap-2 rounded-2xl border border-dashed border-crust bg-white/60 p-10 text-center">
+    <div className="flex flex-col items-center gap-2 rounded-2xl border border-dashed border-crust bg-surface/60 p-10 text-center">
       <PizzaIcon aria-hidden="true" className="size-9 text-tomato/50" strokeWidth={1.75} />
       <h2 className="font-display text-lg font-bold text-ink">{title}</h2>
       {description && <p className="max-w-md text-sm text-ink/65">{description}</p>}

@@ -16,7 +16,7 @@ export function CategoryCard({ category }: { category: HomeCategory }) {
   return (
     <Link
       href={buildMenuHref({ category: name })}
-      className="group flex h-full flex-col items-center rounded-[1.75rem] border border-crust bg-cream p-4 text-center outline-none transition-[transform,box-shadow,background-color] duration-300 hover:bg-white hover:shadow-[0_24px_48px_-24px_rgb(28_23_19/0.35)] focus-visible:ring-2 focus-visible:ring-tomato focus-visible:ring-offset-2 focus-visible:ring-offset-white motion-safe:hover:-translate-y-1.5 sm:rounded-[2rem] sm:p-6"
+      className="group flex h-full flex-col items-center rounded-[1.75rem] border border-crust bg-page p-4 text-center outline-none transition-[transform,box-shadow,background-color] duration-300 hover:bg-surface hover:shadow-[0_24px_48px_-24px_rgb(28_23_19/0.35)] focus-visible:ring-2 focus-visible:ring-tomato focus-visible:ring-offset-2 focus-visible:ring-offset-surface motion-safe:hover:-translate-y-1.5 sm:rounded-[2rem] sm:p-6"
     >
       <div className="relative aspect-square w-full max-w-44">
         <span
@@ -42,7 +42,7 @@ export function CategoryCard({ category }: { category: HomeCategory }) {
         </div>
         <span
           aria-hidden="true"
-          className="absolute right-0 bottom-0 flex size-9 items-center justify-center rounded-full bg-tomato text-cream ring-4 ring-cream transition-colors duration-300 group-hover:bg-tomato-deep group-hover:ring-white"
+          className="absolute right-0 bottom-0 flex size-9 items-center justify-center rounded-full bg-tomato text-cream ring-4 ring-page transition-colors duration-300 group-hover:bg-tomato-deep group-hover:ring-surface"
         >
           <ArrowUpRight className="size-4 transition-transform duration-300 motion-safe:group-hover:translate-x-0.5 motion-safe:group-hover:-translate-y-0.5" />
         </span>

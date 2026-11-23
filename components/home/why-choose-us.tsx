@@ -6,7 +6,7 @@ export function WhyChooseUs() {
     <section
       id="why-pizzahub"
       aria-labelledby="why-heading"
-      className="relative overflow-hidden bg-white"
+      className="relative overflow-hidden bg-surface"
     >
       <div className="mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8 lg:py-24">
         <InView className="mx-auto max-w-2xl text-center">
@@ -26,7 +26,7 @@ export function WhyChooseUs() {
           {WHY_CHOOSE_FEATURES.map(({ id, title, description, icon: Icon }, index) => (
             <li key={id}>
               <InView className="h-full" delay={index * 0.08}>
-                <article className="group h-full rounded-[2rem] border border-crust bg-cream p-6 transition-[transform,box-shadow,background-color] duration-300 hover:bg-white hover:shadow-[0_24px_48px_-24px_rgb(28_23_19/0.35)] motion-safe:hover:-translate-y-1.5 sm:p-7">
+                <article className="group h-full rounded-[2rem] border border-crust bg-page p-6 transition-[transform,box-shadow,background-color] duration-300 hover:bg-surface hover:shadow-[0_24px_48px_-24px_rgb(28_23_19/0.35)] motion-safe:hover:-translate-y-1.5 sm:p-7">
                   <span
                     aria-hidden="true"
                     className="flex size-14 items-center justify-center rounded-full bg-tomato/10 text-tomato transition-colors duration-300 group-hover:bg-tomato group-hover:text-cream"

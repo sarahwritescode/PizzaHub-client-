@@ -6,7 +6,7 @@ export function HowItWorks() {
     <section
       id="how-it-works"
       aria-labelledby="how-heading"
-      className="relative overflow-hidden bg-cream"
+      className="relative overflow-hidden bg-page"
     >
       <div className="mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8 lg:py-24">
         <InView className="mx-auto max-w-2xl text-center">
@@ -25,7 +25,7 @@ export function HowItWorks() {
           {HOW_IT_WORKS_STEPS.map(({ id, title, description, icon: Icon }, index) => (
             <li key={id}>
               <InView className="h-full" delay={index * 0.08}>
-                <article className="relative h-full rounded-[2rem] border border-crust bg-white p-6 sm:p-7">
+                <article className="relative h-full rounded-[2rem] border border-crust bg-surface p-6 sm:p-7">
                   <span
                     aria-hidden="true"
                     className="absolute top-5 right-6 font-display text-5xl leading-none font-extrabold text-tomato/15"

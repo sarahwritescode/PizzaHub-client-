@@ -29,7 +29,7 @@ function DetailsSkeleton() {
 // come back here afterwards).
 export default function MenuItemPage(props: { params: Promise<{ id: string }> }) {
   return (
-    <main className="flex-1 bg-cream">
+    <main className="flex-1 bg-page">
       <div className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8 lg:py-16">
         <Link
           href="/menu"

@@ -13,7 +13,7 @@ export function MenuSkeleton() {
         {[0, 1, 2, 3].map((i) => (
           <div
             key={i}
-            className="flex gap-4 rounded-3xl border border-crust bg-white p-3 sm:gap-5 sm:p-4"
+            className="flex gap-4 rounded-3xl border border-crust bg-surface p-3 sm:gap-5 sm:p-4"
           >
             <div className="size-24 shrink-0 rounded-2xl bg-crust/70 motion-safe:animate-pulse sm:size-36" />
             <div className="flex flex-1 flex-col gap-3 py-1">

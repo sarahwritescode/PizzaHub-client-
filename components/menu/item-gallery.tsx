@@ -45,7 +45,7 @@ export function ItemGallery({ images, name }: { images: string[]; name: string }
                 aria-label={`Show photo ${index + 1} of ${images.length}`}
                 aria-pressed={index === active}
                 className={cn(
-                  "relative block size-16 overflow-hidden rounded-2xl border-2 bg-crust outline-none transition-[border-color,opacity] focus-visible:ring-2 focus-visible:ring-tomato focus-visible:ring-offset-2 focus-visible:ring-offset-cream sm:size-20",
+                  "relative block size-16 overflow-hidden rounded-2xl border-2 bg-crust outline-none transition-[border-color,opacity] focus-visible:ring-2 focus-visible:ring-tomato focus-visible:ring-offset-2 focus-visible:ring-offset-page sm:size-20",
                   index === active
                     ? "border-tomato"
                     : "border-transparent opacity-70 hover:opacity-100",

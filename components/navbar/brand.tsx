@@ -7,7 +7,7 @@ export function Brand({ onNavigate }: { onNavigate?: () => void }) {
       href="/"
       onClick={onNavigate}
       aria-label="PizzaHub home"
-      className="group inline-flex items-center gap-2.5 rounded-full outline-none focus-visible:ring-2 focus-visible:ring-tomato focus-visible:ring-offset-2 focus-visible:ring-offset-cream"
+      className="group inline-flex items-center gap-2.5 rounded-full outline-none focus-visible:ring-2 focus-visible:ring-tomato focus-visible:ring-offset-2 focus-visible:ring-offset-page"
     >
       <span
         aria-hidden="true"

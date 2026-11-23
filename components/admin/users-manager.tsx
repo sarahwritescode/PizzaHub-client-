@@ -38,7 +38,7 @@ import {
 
 const PAGE_SIZE = 12;
 const selectClass =
-  "h-10 w-full rounded-lg border border-input bg-white px-2.5 text-sm outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 sm:w-40";
+  "h-10 w-full rounded-lg border border-input bg-surface px-2.5 text-sm outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 sm:w-40";
 
 type Toggle = { user: AdminUser; kind: "block" | "unblock" };
 
@@ -117,7 +117,7 @@ export function UsersManager() {
             placeholder="Search by name or email"
             value={searchInput}
             onChange={(event) => setSearchInput(event.target.value)}
-            className="h-10 bg-white pl-9"
+            className="h-10 bg-surface pl-9"
           />
           <Button type="submit" variant="outline" className="h-10">
             Search
@@ -224,7 +224,7 @@ function UserRow({
   const premium = user.role === "vendor" && user.subscriptionPlan === "premium";
 
   return (
-    <li className="flex flex-col gap-3 rounded-2xl border border-crust bg-white p-4 sm:flex-row sm:items-center">
+    <li className="flex flex-col gap-3 rounded-2xl border border-crust bg-surface p-4 sm:flex-row sm:items-center">
       <div className="min-w-0 flex-1">
         <div className="flex flex-wrap items-center gap-2">
           <h2 className="truncate font-display text-lg leading-tight font-bold text-ink">{user.name}</h2>

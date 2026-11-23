@@ -69,7 +69,7 @@ function DashboardBody({ data }: { data: DashboardData }) {
               {card.hint && <p className="mt-1 text-xs text-ink/55">{card.hint}</p>}
             </>
           );
-          const base = "rounded-2xl border border-crust bg-white p-5";
+          const base = "rounded-2xl border border-crust bg-surface p-5";
           return card.href ? (
             <Link
               key={card.label}
@@ -165,7 +165,7 @@ function RecentList({
   children: React.ReactNode[];
 }) {
   return (
-    <section className="rounded-2xl border border-crust bg-white p-5" aria-label={title}>
+    <section className="rounded-2xl border border-crust bg-surface p-5" aria-label={title}>
       <div className="flex items-center justify-between gap-3">
         <h2 className="font-display text-lg font-bold text-ink">{title}</h2>
         {href && (

@@ -110,7 +110,7 @@ function ProfileForm({
     <form
       onSubmit={handleSubmit(onSubmit)}
       noValidate
-      className="max-w-xl rounded-2xl border border-crust bg-white p-5 sm:p-6"
+      className="max-w-xl rounded-2xl border border-crust bg-surface p-5 sm:p-6"
       aria-label="Profile settings"
     >
       <div className="mb-6 flex items-center gap-4">

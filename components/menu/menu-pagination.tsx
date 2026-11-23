@@ -3,7 +3,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { buildMenuHref, type MenuQuery, type Pagination } from "@/lib/menu-api";
 
 const linkBase =
-  "inline-flex h-11 items-center gap-1.5 rounded-full border px-5 text-sm font-semibold outline-none transition-colors focus-visible:ring-2 focus-visible:ring-tomato focus-visible:ring-offset-2 focus-visible:ring-offset-cream";
+  "inline-flex h-11 items-center gap-1.5 rounded-full border px-5 text-sm font-semibold outline-none transition-colors focus-visible:ring-2 focus-visible:ring-tomato focus-visible:ring-offset-2 focus-visible:ring-offset-page";
 
 export function MenuPagination({
   pagination,
@@ -22,7 +22,7 @@ export function MenuPagination({
       {pagination.hasPreviousPage ? (
         <Link
           href={buildMenuHref({ ...query, page: pagination.page - 1 })}
-          className={`${linkBase} border-crust bg-white text-ink hover:border-tomato`}
+          className={`${linkBase} border-crust bg-surface text-ink hover:border-tomato`}
         >
           <ChevronLeft aria-hidden="true" className="size-4" />
           Previous
@@ -30,7 +30,7 @@ export function MenuPagination({
       ) : (
         <span
           aria-disabled="true"
-          className={`${linkBase} border-crust bg-white/60 text-ink/35`}
+          className={`${linkBase} border-crust bg-surface/60 text-ink/35`}
         >
           <ChevronLeft aria-hidden="true" className="size-4" />
           Previous
@@ -52,7 +52,7 @@ export function MenuPagination({
       ) : (
         <span
           aria-disabled="true"
-          className={`${linkBase} border-crust bg-white/60 text-ink/35`}
+          className={`${linkBase} border-crust bg-surface/60 text-ink/35`}
         >
           Next
           <ChevronRight aria-hidden="true" className="size-4" />

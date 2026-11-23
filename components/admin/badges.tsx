@@ -17,7 +17,7 @@ const TRANSACTION_BADGE: Record<TransactionStatus, string> = {
 };
 
 const ROLE_BADGE: Record<UserRole, string> = {
-  admin: "bg-ink text-white",
+  admin: "bg-ink text-page",
   vendor: "bg-tomato/10 text-tomato",
   customer: "bg-sky-100 text-sky-900",
 };

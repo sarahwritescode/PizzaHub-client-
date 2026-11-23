@@ -8,7 +8,7 @@ import { PremiumBadge } from "@/components/menu/vendor-info";
 import { buildMenuHref, fetchMenuItem, formatMenuPrice, vendorLabel } from "@/lib/menu-api";
 
 const backLinkClass =
-  "inline-flex h-11 items-center justify-center gap-2 rounded-full bg-tomato px-6 text-sm font-semibold text-cream outline-none transition-colors hover:bg-tomato-deep focus-visible:ring-2 focus-visible:ring-tomato focus-visible:ring-offset-2 focus-visible:ring-offset-cream";
+  "inline-flex h-11 items-center justify-center gap-2 rounded-full bg-tomato px-6 text-sm font-semibold text-cream outline-none transition-colors hover:bg-tomato-deep focus-visible:ring-2 focus-visible:ring-tomato focus-visible:ring-offset-2 focus-visible:ring-offset-page";
 
 export async function ItemDetails({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -17,7 +17,7 @@ export async function ItemDetails({ params }: { params: Promise<{ id: string }> 
   if (!result.ok) {
     if (result.status === 404 || result.status === 400) notFound();
     return (
-      <div className="mx-auto max-w-md rounded-3xl border border-crust bg-white px-6 py-10 text-center">
+      <div className="mx-auto max-w-md rounded-3xl border border-crust bg-surface px-6 py-10 text-center">
         <h2 className="font-display text-xl font-bold text-ink">
           We couldn&apos;t load this pizza
         </h2>
@@ -110,7 +110,7 @@ export async function ItemDetails({ params }: { params: Promise<{ id: string }> 
           <AddToCartButton id={item._id} name={item.itemName} price={item.price} />
           <Link
             href="/menu"
-            className="inline-flex h-12 items-center justify-center gap-2 rounded-full border border-crust bg-white px-6 text-sm font-semibold text-ink outline-none transition-colors hover:border-tomato hover:text-tomato focus-visible:ring-2 focus-visible:ring-tomato focus-visible:ring-offset-2 focus-visible:ring-offset-cream"
+            className="inline-flex h-12 items-center justify-center gap-2 rounded-full border border-crust bg-surface px-6 text-sm font-semibold text-ink outline-none transition-colors hover:border-tomato hover:text-tomato focus-visible:ring-2 focus-visible:ring-tomato focus-visible:ring-offset-2 focus-visible:ring-offset-page"
           >
             <ArrowLeft aria-hidden="true" className="size-4" />
             Back to menu

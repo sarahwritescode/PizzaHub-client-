@@ -29,7 +29,7 @@ type Props = {
 
 const pill = "h-9 rounded-full px-4 text-sm font-medium";
 const focusRing =
-  "outline-none focus-visible:ring-2 focus-visible:ring-tomato focus-visible:ring-offset-2 focus-visible:ring-offset-cream";
+  "outline-none focus-visible:ring-2 focus-visible:ring-tomato focus-visible:ring-offset-2 focus-visible:ring-offset-page";
 
 function initials(name: string): string {
   const parts = name.trim().split(/\s+/).filter(Boolean);

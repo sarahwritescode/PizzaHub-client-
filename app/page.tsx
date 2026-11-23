@@ -17,10 +17,10 @@ export default function Home() {
       <Hero />
       {/* The menu sections read live data from the backend, so they stream in
           behind Suspense while the static sections render straight away. */}
-      <Suspense fallback={<SectionFallback className="bg-white" />}>
+      <Suspense fallback={<SectionFallback className="bg-surface" />}>
         <Categories />
       </Suspense>
-      <Suspense fallback={<SectionFallback className="bg-cream" />}>
+      <Suspense fallback={<SectionFallback className="bg-page" />}>
         <FeaturedPizzas />
       </Suspense>
       <WhyChooseUs />

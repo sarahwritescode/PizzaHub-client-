@@ -20,13 +20,13 @@ function Notice({
   action?: { href: string; label: string };
 }) {
   return (
-    <div className="mx-auto max-w-md rounded-3xl border border-crust bg-white px-6 py-10 text-center">
+    <div className="mx-auto max-w-md rounded-3xl border border-crust bg-surface px-6 py-10 text-center">
       <h2 className="font-display text-xl font-bold text-ink">{title}</h2>
       <p className="mt-2 text-sm leading-relaxed text-ink/65">{body}</p>
       {action && (
         <Link
           href={action.href}
-          className="mt-6 inline-flex h-11 items-center justify-center rounded-full bg-tomato px-6 text-sm font-semibold text-cream outline-none transition-colors hover:bg-tomato-deep focus-visible:ring-2 focus-visible:ring-tomato focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+          className="mt-6 inline-flex h-11 items-center justify-center rounded-full bg-tomato px-6 text-sm font-semibold text-cream outline-none transition-colors hover:bg-tomato-deep focus-visible:ring-2 focus-visible:ring-tomato focus-visible:ring-offset-2 focus-visible:ring-offset-surface"
         >
           {action.label}
         </Link>

@@ -27,7 +27,7 @@ export async function Categories() {
     <section
       id="categories"
       aria-labelledby="categories-heading"
-      className="relative overflow-hidden bg-white"
+      className="relative overflow-hidden bg-surface"
     >
       <div className="mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8 lg:py-24">
         <InView className="mx-auto max-w-2xl text-center">

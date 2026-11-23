@@ -5,7 +5,7 @@ import { VendorInfo } from "@/components/menu/vendor-info";
 import { formatMenuPrice, getMenuItemHref, type MenuItem } from "@/lib/menu-api";
 
 const buttonBase =
-  "inline-flex h-11 items-center justify-center gap-2 rounded-full px-4 text-sm font-semibold whitespace-nowrap outline-none transition-colors duration-200 focus-visible:ring-2 focus-visible:ring-tomato focus-visible:ring-offset-2 focus-visible:ring-offset-white";
+  "inline-flex h-11 items-center justify-center gap-2 rounded-full px-4 text-sm font-semibold whitespace-nowrap outline-none transition-colors duration-200 focus-visible:ring-2 focus-visible:ring-tomato focus-visible:ring-offset-2 focus-visible:ring-offset-surface";
 
 /** A real, admin-approved menu item on the home page. */
 export function ProductCard({ item }: { item: MenuItem }) {
@@ -13,7 +13,7 @@ export function ProductCard({ item }: { item: MenuItem }) {
   const image = images.find((src) => /^https?:\/\//i.test(src));
 
   return (
-    <article className="group flex h-full flex-col rounded-[2rem] border border-crust bg-white p-3 transition-[transform,box-shadow] duration-300 hover:shadow-[0_28px_50px_-28px_rgb(28_23_19/0.4)] motion-safe:hover:-translate-y-1.5 sm:p-4">
+    <article className="group flex h-full flex-col rounded-[2rem] border border-crust bg-surface p-3 transition-[transform,box-shadow] duration-300 hover:shadow-[0_28px_50px_-28px_rgb(28_23_19/0.4)] motion-safe:hover:-translate-y-1.5 sm:p-4">
       <div className="relative aspect-4/3 overflow-hidden rounded-3xl bg-crust">
         {image ? (
           <Image
@@ -30,7 +30,7 @@ export function ProductCard({ item }: { item: MenuItem }) {
             <PizzaIcon className="size-14" strokeWidth={1.75} />
           </span>
         )}
-        <span className="absolute top-3 left-3 rounded-full bg-cream/95 px-3 py-1 text-xs font-semibold text-ink shadow-sm">
+        <span className="absolute top-3 left-3 rounded-full bg-page/95 px-3 py-1 text-xs font-semibold text-ink shadow-sm">
           {category}
         </span>
       </div>

@@ -12,7 +12,7 @@ export default function MenuPage(props: {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
   return (
-    <main className="flex-1 bg-cream">
+    <main className="flex-1 bg-page">
       <div className="mx-auto w-full max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-20">
         <header className="mx-auto mb-10 max-w-2xl text-center sm:mb-12">
           <h1 className="font-display text-4xl leading-tight font-extrabold tracking-tight text-ink sm:text-5xl">

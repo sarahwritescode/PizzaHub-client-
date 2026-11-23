@@ -151,10 +151,10 @@ export function ImageUploader({
     <div>
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
         {items.map((item, index) => (
-          <figure key={item.key} className="relative rounded-xl border border-crust bg-white p-2">
+          <figure key={item.key} className="relative rounded-xl border border-crust bg-surface p-2">
             <Thumb src={item.preview} alt={`Preview of ${item.name}`} className="aspect-square w-full" />
             {index === 0 && (
-              <span className="absolute top-3.5 left-3.5 rounded-full bg-ink/80 px-2 py-0.5 text-[10px] font-semibold text-white">
+              <span className="absolute top-3.5 left-3.5 rounded-full bg-ink/80 px-2 py-0.5 text-[10px] font-semibold text-page">
                 Cover
               </span>
             )}
@@ -162,7 +162,7 @@ export function ImageUploader({
               type="button"
               onClick={() => remove(item.key)}
               aria-label={`Remove ${item.name}`}
-              className="absolute top-3.5 right-3.5 inline-flex size-6 items-center justify-center rounded-full bg-white/90 text-ink shadow outline-none hover:text-tomato focus-visible:ring-2 focus-visible:ring-tomato"
+              className="absolute top-3.5 right-3.5 inline-flex size-6 items-center justify-center rounded-full bg-surface/90 text-ink shadow outline-none hover:text-tomato focus-visible:ring-2 focus-visible:ring-tomato"
             >
               <XIcon aria-hidden="true" className="size-3.5" />
             </button>
@@ -209,7 +209,7 @@ export function ImageUploader({
           <button
             type="button"
             onClick={() => inputRef.current?.click()}
-            className="flex aspect-square min-h-32 flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed border-crust bg-white/60 p-3 text-center text-xs font-medium text-ink/65 outline-none transition-colors hover:border-tomato hover:text-tomato focus-visible:ring-2 focus-visible:ring-tomato"
+            className="flex aspect-square min-h-32 flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed border-crust bg-surface/60 p-3 text-center text-xs font-medium text-ink/65 outline-none transition-colors hover:border-tomato hover:text-tomato focus-visible:ring-2 focus-visible:ring-tomato"
           >
             <ImagePlusIcon aria-hidden="true" className="size-6" />
             Add images

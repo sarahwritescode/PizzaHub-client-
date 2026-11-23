@@ -91,7 +91,7 @@ export function OrdersManager() {
             setStatus(event.target.value as OrderStatus | "");
             setPage(1);
           }}
-          className="h-10 w-full rounded-lg border border-input bg-white px-2.5 text-sm outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 sm:w-52"
+          className="h-10 w-full rounded-lg border border-input bg-surface px-2.5 text-sm outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 sm:w-52"
         >
           <option value="">All orders</option>
           {ORDER_STATUSES.map((value) => (
@@ -157,7 +157,7 @@ export function OrdersManager() {
 
 function OrderCard({ order, onDecide }: { order: VendorOrder; onDecide: (kind: Decision["kind"]) => void }) {
   return (
-    <li className="rounded-2xl border border-crust bg-white p-4 sm:p-5">
+    <li className="rounded-2xl border border-crust bg-surface p-4 sm:p-5">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="flex min-w-0 gap-3">
           <Thumb src={order.item?.images[0]} alt={order.item?.itemName ?? "Item"} className="size-16" />

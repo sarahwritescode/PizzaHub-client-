@@ -109,13 +109,13 @@ function StatGrid({ stats, plan }: { stats: Stats; plan: Plan | null }) {
   return (
     <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
       {cards.map((card) => (
-        <div key={card.label} className="rounded-2xl border border-crust bg-white p-5">
+        <div key={card.label} className="rounded-2xl border border-crust bg-surface p-5">
           <p className="text-sm font-medium text-ink/65">{card.label}</p>
           <p className="mt-2 font-display text-3xl font-extrabold text-ink tabular-nums">{card.value}</p>
           {card.hint && <p className="mt-1 text-xs text-ink/55">{card.hint}</p>}
         </div>
       ))}
-      <div className="rounded-2xl border border-crust bg-white p-5">
+      <div className="rounded-2xl border border-crust bg-surface p-5">
         <p className="text-sm font-medium text-ink/65">Plan</p>
         {plan ? (
           <>
@@ -162,7 +162,7 @@ function StatusChart<S extends string>({
   const config: ChartConfig = { count: { label: noun } };
 
   return (
-    <section className="rounded-2xl border border-crust bg-white p-5" aria-label={title}>
+    <section className="rounded-2xl border border-crust bg-surface p-5" aria-label={title}>
       <h2 className="font-display text-lg font-bold text-ink">{title}</h2>
       {sum(counts) === 0 ? (
         <p className="py-16 text-center text-sm text-ink/60">No {noun} yet.</p>
@@ -187,7 +187,7 @@ function StatusChart<S extends string>({
 
 function RecentOrders({ orders }: { orders: VendorOrder[] }) {
   return (
-    <section className="rounded-2xl border border-crust bg-white p-5" aria-label="Recent orders">
+    <section className="rounded-2xl border border-crust bg-surface p-5" aria-label="Recent orders">
       <div className="flex items-center justify-between gap-3">
         <h2 className="font-display text-lg font-bold text-ink">Recent orders</h2>
         <Link href="/vendor/orders" className="text-sm font-semibold text-tomato hover:underline">

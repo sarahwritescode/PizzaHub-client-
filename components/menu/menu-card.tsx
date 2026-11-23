@@ -18,7 +18,7 @@ export function MenuCard({ item }: { item: MenuItem }) {
   return (
     <Link
       href={getMenuItemHref(item._id)}
-      className="group flex h-full gap-4 rounded-3xl border border-crust bg-white p-3 outline-none transition-[transform,box-shadow] duration-300 hover:shadow-[0_24px_48px_-28px_rgb(28_23_19/0.4)] focus-visible:ring-2 focus-visible:ring-tomato focus-visible:ring-offset-2 focus-visible:ring-offset-cream motion-safe:hover:-translate-y-1 sm:gap-5 sm:p-4"
+      className="group flex h-full gap-4 rounded-3xl border border-crust bg-surface p-3 outline-none transition-[transform,box-shadow] duration-300 hover:shadow-[0_24px_48px_-28px_rgb(28_23_19/0.4)] focus-visible:ring-2 focus-visible:ring-tomato focus-visible:ring-offset-2 focus-visible:ring-offset-page motion-safe:hover:-translate-y-1 sm:gap-5 sm:p-4"
     >
       <div className="relative size-24 shrink-0 overflow-hidden rounded-2xl bg-crust sm:size-36">
         {image ? (
