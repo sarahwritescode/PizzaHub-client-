@@ -120,7 +120,9 @@ function TransactionRow({ transaction }: { transaction: AdminTransaction }) {
         <div className="min-w-0">
           <p className="font-display text-xl font-bold text-ink tabular-nums">
             {formatMoney(transaction.amount, transaction.currency)}
-            <span className="ml-2 text-sm font-medium text-ink/60 capitalize">{transaction.plan} plan</span>
+            <span className="ml-2 text-sm font-medium text-ink/60">
+              {transaction.plan.charAt(0).toUpperCase() + transaction.plan.slice(1)} plan
+            </span>
           </p>
           <p className="mt-0.5 truncate text-sm text-ink/70">
             {vendor ? `${vendor.businessName ?? vendor.name} (${vendor.email})` : "Vendor account removed"}
