@@ -13,7 +13,7 @@ import {
   formatDate,
   formatMoney,
   listTransactions,
-  listUsers,
+  listVendors,
   type AdminTransaction,
   type TransactionStatus,
 } from "@/lib/admin-api";
@@ -33,10 +33,8 @@ export function TransactionsView() {
     listTransactions({ status: status || undefined, vendorId: vendorId || undefined, page, limit: PAGE_SIZE })
   );
 
-  // Vendor filter options: the 50 newest vendor accounts (the server has no vendor picker endpoint).
-  const { result: vendorsResult } = useApiResource("admin-transaction-vendors", () =>
-    listUsers({ role: "vendor", limit: 50 })
-  );
+  // Vendor filter options: every vendor account.
+  const { result: vendorsResult } = useApiResource("admin-transaction-vendors", listVendors);
   const vendors = vendorsResult?.ok ? vendorsResult.data : [];
 
   const transactions = result?.ok ? result.data : [];

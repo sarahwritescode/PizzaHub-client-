@@ -29,6 +29,7 @@ import {
   approveMenuItem,
   deleteMenuItem,
   formatDate,
+  listMenuCategories,
   listMenuItems,
   rejectMenuItem,
   setMenuItemStatus,
@@ -92,11 +93,10 @@ export function MenuModeration() {
     })
   );
 
-  // The category filter lists the categories of the newest 50 items (the server has no categories endpoint for admins).
-  const { result: sample } = useApiResource("admin-menu-categories", () => listMenuItems({ limit: 50 }));
-  const categories = [
-    ...new Set([...(sample?.ok ? sample.data.map((entry) => entry.category) : []), ...(category ? [category] : [])]),
-  ].sort((a, b) => a.localeCompare(b));
+  // Every category in use, whatever the item status (a selected one stays listed even if it just disappeared).
+  const { result: categoriesResult } = useApiResource("admin-menu-categories", listMenuCategories);
+  const known = categoriesResult?.ok ? categoriesResult.data.map((entry) => entry.name) : [];
+  const categories = category && !known.includes(category) ? [...known, category] : known;
 
   const items = result?.ok ? result.data : [];
   const pagination = result?.ok ? result.pagination : undefined;

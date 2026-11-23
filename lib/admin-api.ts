@@ -4,6 +4,8 @@
  *
  *   GET   /api/admin/dashboard
  *   GET   /api/admin/menu-items?status&category&search&page&limit
+ *   GET   /api/admin/menu-items/categories          [{ name, count }]
+ *   GET   /api/admin/vendors                        [{ _id, name, email, businessName }]
  *   PATCH /api/admin/menu-items/:id/approve | /reject
  *   PATCH /api/admin/menu-items/:id/status          { status }
  *   DELETE /api/admin/menu-items/:id
@@ -129,6 +131,11 @@ export function listMenuItems(
   return request<AdminMenuItem[]>(`/api/admin/menu-items${query(params)}`);
 }
 
+/** Every category used by any item, in any status (the public /api/categories counts approved items only). */
+export function listMenuCategories() {
+  return request<{ name: string; count: number }[]>("/api/admin/menu-items/categories");
+}
+
 export function approveMenuItem(id: string) {
   return request<AdminMenuItem>(`/api/admin/menu-items/${id}/approve`, { method: "PATCH" });
 }
@@ -160,6 +167,11 @@ export function listUsers(
 /** One user's details (the server returns the same safe fields as the list: no passwords, tokens or sessions). */
 export function getUser(id: string) {
   return request<AdminUser>(`/api/admin/users/${id}`);
+}
+
+/** Every vendor account (blocked ones too), unpaginated, for pickers. Takes no query parameters (the server answers 400). */
+export function listVendors() {
+  return request<{ _id: string; name: string; email: string; businessName: string | null }[]>("/api/admin/vendors");
 }
 
 export function blockUser(id: string) {
