@@ -6,12 +6,14 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { brandButtonClass } from "@/components/shared/button-styles";
 import { EmptyState, ErrorState } from "@/components/shared/states";
 import { PageHeader } from "@/components/shared/page-header";
+import { StatusChart } from "@/components/shared/status-chart";
 import { OrderStatusBadge } from "@/components/shared/status-badge";
 import { Thumb } from "@/components/shared/thumb";
 import { useApiResource } from "@/hooks/use-api-resource";
 import { authClient } from "@/lib/auth-client";
 import { formatDate } from "@/lib/format";
 import { formatMenuPrice } from "@/lib/menu-api";
+import { ORDER_STATUS_LABEL, ORDER_STATUSES } from "@/lib/api/types";
 import { listAllMyOrders, vendorName } from "@/lib/orders-api";
 
 const RECENT = 5;
@@ -100,11 +102,16 @@ function Stats({ orders, total }: { orders: { status: string }[]; total: number 
     { label: "Total orders", value: total },
     { label: "Pending orders", value: count("pending"), hint: "Waiting for the vendor" },
     { label: "Accepted orders", value: count("accepted"), hint: "On their way to you" },
+    { label: "Rejected orders", value: count("rejected"), hint: "The vendor could not take them" },
   ];
+  const byStatus = Object.fromEntries(ORDER_STATUSES.map((status) => [status, count(status)])) as Record<
+    (typeof ORDER_STATUSES)[number],
+    number
+  >;
 
   return (
     <div>
-      <div className="grid gap-4 sm:grid-cols-3">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {cards.map((card) => (
           <div key={card.label} className="rounded-2xl border border-crust bg-white p-5">
             <p className="text-sm font-medium text-ink/65">{card.label}</p>
@@ -112,6 +119,9 @@ function Stats({ orders, total }: { orders: { status: string }[]; total: number 
             {card.hint && <p className="mt-1 text-xs text-ink/55">{card.hint}</p>}
           </div>
         ))}
+      </div>
+      <div className="mt-6">
+        <StatusChart title="Your orders by status" labels={ORDER_STATUS_LABEL} order={ORDER_STATUSES} counts={byStatus} noun="orders" />
       </div>
       {partial && (
         <p className="mt-2 text-xs text-ink/55">Pending and accepted counts cover your {orders.length} newest orders.</p>
@@ -123,8 +133,8 @@ function Stats({ orders, total }: { orders: { status: string }[]; total: number 
 function DashboardSkeleton() {
   return (
     <div className="space-y-6" aria-busy="true" aria-label="Loading dashboard">
-      <div className="grid gap-4 sm:grid-cols-3">
-        {Array.from({ length: 3 }, (_, index) => (
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {Array.from({ length: 4 }, (_, index) => (
           <Skeleton key={index} className="h-28 rounded-2xl" />
         ))}
       </div>
