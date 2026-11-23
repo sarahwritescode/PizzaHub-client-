@@ -15,17 +15,22 @@
  * to the backend), so the first-party session cookie authenticates every call,
  * exactly like /api/orders. The ImgBB key only ever lives on the backend.
  */
-import type { Pagination } from "@/lib/menu-api";
+import { failureFrom, query, request, type ApiResult } from "@/lib/api/client";
+import {
+  MENU_STATUSES,
+  ORDER_STATUSES,
+  type MenuStatus,
+  type OrderStatus,
+} from "@/lib/api/types";
 
-export type { Pagination };
+// Shared building blocks live in lib/api/*; re-exported so the vendor
+// components keep importing everything vendor-related from here.
+export { MENU_STATUSES, MENU_STATUS_LABEL, ORDER_STATUSES, ORDER_STATUS_LABEL } from "@/lib/api/types";
+export type { MenuStatus, OrderStatus, Pagination } from "@/lib/api/types";
+export type { ApiFailure, ApiResult, ApiSuccess, FieldError } from "@/lib/api/client";
+export { formatDate } from "@/lib/format";
 
 /* ------------------------------------------------------------------ types */
-
-export const MENU_STATUSES = ["pending", "approved", "inactive", "rejected"] as const;
-export type MenuStatus = (typeof MENU_STATUSES)[number];
-
-export const ORDER_STATUSES = ["pending", "accepted", "rejected", "cancelled"] as const;
-export type OrderStatus = (typeof ORDER_STATUSES)[number];
 
 export type VendorMenuItem = {
   _id: string;
@@ -80,85 +85,6 @@ export const LIMITS = {
 
 /** The Free plan allows this many active (pending or approved) items. */
 export const FREE_PLAN_ACTIVE_LIMIT = 3;
-
-/* --------------------------------------------------------------- requests */
-
-export type FieldError = { field: string; message: string };
-
-export type ApiSuccess<T> = {
-  ok: true;
-  data: T;
-  message: string;
-  pagination?: Pagination;
-};
-
-export type ApiFailure = {
-  ok: false;
-  /** 0 when the server could not be reached. */
-  status: number;
-  code?: string;
-  message: string;
-  errors?: FieldError[];
-};
-
-export type ApiResult<T> = ApiSuccess<T> | ApiFailure;
-
-function failureFrom(status: number, body: unknown): ApiFailure {
-  const parsed = (body ?? {}) as {
-    message?: unknown;
-    code?: unknown;
-    errors?: unknown;
-  };
-  const errors = Array.isArray(parsed.errors)
-    ? (parsed.errors as FieldError[]).filter(
-        (entry) => typeof entry?.field === "string" && typeof entry?.message === "string"
-      )
-    : undefined;
-  const code = typeof parsed.code === "string" ? parsed.code : undefined;
-
-  let message: string;
-  if (status === 401) message = "Your session has expired. Please sign in again.";
-  else if (typeof parsed.message === "string" && parsed.message) message = parsed.message;
-  else message = `The server responded with ${status}.`;
-
-  // A validation failure is more useful with the first field message.
-  if (code === "VALIDATION_ERROR" && errors?.length) {
-    message = errors.map((entry) => entry.message).join(" ");
-  }
-  return { ok: false, status, code, message, errors };
-}
-
-async function request<T>(path: string, init?: RequestInit): Promise<ApiResult<T>> {
-  try {
-    const response = await fetch(path, {
-      ...init,
-      cache: "no-store",
-      headers: {
-        Accept: "application/json",
-        ...(init?.body ? { "Content-Type": "application/json" } : {}),
-      },
-    });
-    const body = await response.json().catch(() => null);
-    if (!response.ok || body?.success === false) return failureFrom(response.status, body);
-    return {
-      ok: true,
-      data: body?.data as T,
-      message: typeof body?.message === "string" ? body.message : "",
-      pagination: body?.pagination,
-    };
-  } catch {
-    return { ok: false, status: 0, message: "We could not reach the server. Check your connection." };
-  }
-}
-
-function query(params: Record<string, string | number | undefined>): string {
-  const search = new URLSearchParams();
-  for (const [key, value] of Object.entries(params)) {
-    if (value !== undefined && value !== "") search.set(key, String(value));
-  }
-  const text = search.toString();
-  return text ? `?${text}` : "";
-}
 
 /* ------------------------------------------------------------- menu items */
 
@@ -330,37 +256,9 @@ export function resolvePlan(user: {
 
 /* ---------------------------------------------------------------- display */
 
-export const MENU_STATUS_LABEL: Record<MenuStatus, string> = {
-  pending: "Pending approval",
-  approved: "Approved",
-  inactive: "Inactive",
-  rejected: "Rejected",
-};
-
-export const ORDER_STATUS_LABEL: Record<OrderStatus, string> = {
-  pending: "Pending",
-  accepted: "Accepted",
-  rejected: "Rejected",
-  cancelled: "Cancelled",
-};
-
 /** Active items are the ones that count toward the Free plan limit. */
 export function isActiveStatus(status: MenuStatus): boolean {
   return status === "pending" || status === "approved";
-}
-
-export function formatDate(value: string, withTime = false): string {
-  const date = new Date(value);
-  if (Number.isNaN(date.getTime())) return value;
-  return new Intl.DateTimeFormat("en-GB", {
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-    // Delivery dates are plain days stored at 00:00 UTC; show them in UTC so
-    // they never slide to the previous day.
-    timeZone: withTime ? undefined : "UTC",
-    ...(withTime ? { hour: "2-digit", minute: "2-digit" } : {}),
-  }).format(date);
 }
 
 /* ------------------------------------------------------------------ stats */

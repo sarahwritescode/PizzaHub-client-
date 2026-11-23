@@ -4,6 +4,7 @@
  *   GET /api/categories   ([{ name, count }])
  * Filtering, sorting and pagination are done by the server.
  */
+import type { Pagination } from "@/lib/api/types";
 
 export type MenuItem = {
   _id: string;
@@ -16,14 +17,8 @@ export type MenuItem = {
   createdAt: string;
 };
 
-export type Pagination = {
-  page: number;
-  limit: number;
-  totalItems: number;
-  totalPages: number;
-  hasNextPage: boolean;
-  hasPreviousPage: boolean;
-};
+// Defined in lib/api/types.ts (shared by every list endpoint).
+export type { Pagination };
 
 export type MenuCategory = { name: string; count: number };
 

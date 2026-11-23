@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import type { ApiResult } from "@/lib/vendor-api";
+import type { ApiResult } from "@/lib/api/client";
 
 /**
  * Loads data from one of the vendor API helpers.
