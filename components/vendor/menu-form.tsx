@@ -8,6 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { ChevronLeftIcon, InfoIcon } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import { NativeSelect, NativeSelectOption } from "@/components/ui/native-select";
 import { Textarea } from "@/components/ui/textarea";
 import { Field, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { toast } from "@/components/ui/toast";
@@ -21,6 +22,7 @@ import {
 } from "@/components/vendor/shared";
 import { useApiResource } from "@/hooks/use-api-resource";
 import { usePlanUsage } from "@/hooks/use-plan-usage";
+import { MENU_CATEGORIES } from "@/lib/categories";
 import {
   LIMITS,
   createMenuItem,
@@ -42,7 +44,7 @@ const required = (label: string, max: number) =>
 // again, so this is only for fast feedback.
 const menuItemSchema = z.object({
   itemName: required("Item name", LIMITS.itemName),
-  category: required("Category", LIMITS.category),
+  category: z.string().trim().min(1, "Choose a category.").max(LIMITS.category, `Category must be at most ${LIMITS.category} characters.`),
   description: required("Description", LIMITS.description),
   location: required("Location", LIMITS.location),
   price: z
@@ -112,6 +114,11 @@ function statusNote(item: VendorMenuItem) {
 function MenuItemForm({ item }: { item?: VendorMenuItem }) {
   const router = useRouter();
   const usage = usePlanUsage();
+  // An item saved before the fixed category list may carry another category: keep it selectable.
+  const categoryOptions: string[] =
+    item?.category && !(MENU_CATEGORIES as readonly string[]).includes(item.category)
+      ? [...MENU_CATEGORIES, item.category]
+      : [...MENU_CATEGORIES];
   const uploads = useImageUploads(item?.images ?? []);
   const [imagesError, setImagesError] = useState<string>();
   const [formError, setFormError] = useState<string>();
@@ -243,13 +250,14 @@ function MenuItemForm({ item }: { item?: VendorMenuItem }) {
           <div className="grid gap-6 sm:grid-cols-3">
             <Field data-invalid={!!errors.category}>
               <FieldLabel htmlFor="category">Category</FieldLabel>
-              <Input
-                id="category"
-                maxLength={LIMITS.category}
-                aria-invalid={!!errors.category}
-                placeholder="Pizza"
-                {...register("category")}
-              />
+              <NativeSelect className="w-full" id="category" aria-invalid={!!errors.category} {...register("category")}>
+                <NativeSelectOption value="">Choose a category</NativeSelectOption>
+                {categoryOptions.map((name) => (
+                  <NativeSelectOption key={name} value={name}>
+                    {name}
+                  </NativeSelectOption>
+                ))}
+              </NativeSelect>
               <FieldError errors={[errors.category]} />
             </Field>
             <Field data-invalid={!!errors.location}>
