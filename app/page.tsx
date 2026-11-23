@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import { Categories } from "@/components/home/categories";
 import { FeaturedPizzas } from "@/components/home/featured-pizzas";
 import { Hero } from "@/components/home/hero";
+import { HowItWorks } from "@/components/home/how-it-works";
 import { WhyChooseUs } from "@/components/home/why-choose-us";
 
 // A placeholder with the section's height so the page does not jump when the
@@ -23,6 +24,7 @@ export default function Home() {
         <FeaturedPizzas />
       </Suspense>
       <WhyChooseUs />
+      <HowItWorks />
     </main>
   );
 }

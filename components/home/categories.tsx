@@ -1,24 +1,25 @@
 import { CategoryCard, type HomeCategory } from "@/components/home/category-card";
 import { InView } from "@/components/home/in-view";
+import { MENU_CATEGORIES } from "@/lib/categories";
 import { fetchMenuCategories, fetchMenuItems } from "@/lib/menu-api";
 
-// Real categories from the backend (only categories that have at least one
-// approved item), each with the photo of its newest item.
+// The six PizzaHub categories, always shown. Each card carries the live number
+// of approved items in that category and the photo of its newest item.
 export async function Categories() {
   const [categoriesResult, itemsResult] = await Promise.all([
     fetchMenuCategories(),
     fetchMenuItems({ sort: "newest", page: 1 }, 50),
   ]);
 
-  // Without categories there is nothing to explore yet: hide the whole section.
-  if (!categoriesResult.ok || categoriesResult.data.length === 0) return null;
-
+  const counts = categoriesResult.ok ? categoriesResult.data : [];
   const newestFirst = itemsResult.ok ? itemsResult.data.items : [];
-  const categories: HomeCategory[] = categoriesResult.data.map(({ name, count }) => ({
+  const same = (a: string, b: string) => a.toLowerCase() === b.toLowerCase();
+
+  const categories: HomeCategory[] = MENU_CATEGORIES.map((name) => ({
     name,
-    count,
+    count: counts.find((entry) => same(entry.name, name))?.count ?? 0,
     image: newestFirst
-      .find((item) => item.category.toLowerCase() === name.toLowerCase())
+      .find((item) => same(item.category, name))
       ?.images.find((src) => /^https?:\/\//i.test(src)),
   }));
 

@@ -50,7 +50,7 @@ export function CategoryCard({ category }: { category: HomeCategory }) {
 
       <h3 className="mt-5 font-display text-lg leading-tight font-bold text-ink sm:text-xl">{name}</h3>
       <p className="mt-1.5 text-sm leading-relaxed text-ink/65">
-        {count} {count === 1 ? "item" : "items"}
+        {count === 0 ? "Coming soon" : `${count} ${count === 1 ? "item" : "items"}`}
       </p>
     </Link>
   );
