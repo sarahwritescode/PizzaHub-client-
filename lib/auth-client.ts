@@ -18,6 +18,7 @@ export const authClient = createAuthClient({
         isBlocked: { type: "boolean", required: false, input: false },
         businessName: { type: "string", required: false },
         subscriptionPlan: { type: "string", required: false, input: false },
+        subscriptionExpiresAt: { type: "date", required: false, input: false },
       },
     }),
   ],

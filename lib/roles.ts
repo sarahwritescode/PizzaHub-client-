@@ -22,5 +22,7 @@ export function postSignInPath(next: string | null, role: unknown): string {
 }
 
 export function dashboardPathFor(role: unknown): string {
+  // Vendors have their own /vendor/* area; /dashboard/vendor redirects there.
+  if (role === "vendor") return "/vendor/dashboard";
   return isRole(role) ? `/dashboard/${role}` : "/dashboard/customer";
 }

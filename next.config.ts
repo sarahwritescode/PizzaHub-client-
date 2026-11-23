@@ -16,10 +16,25 @@ const nextConfig: NextConfig = {
   // forwards them to the backend. That makes the session cookie first-party
   // (same domain as the pages), so proxy.ts and the dashboard layouts can see
   // it in production, and the backend's customer-only order routes accept it.
+  async redirects() {
+    return [
+      {
+        source: "/dashboard/vendor",
+        destination: "/vendor/dashboard",
+        permanent: false,
+      },
+    ];
+  },
   async rewrites() {
     const backend = process.env.NEXT_PUBLIC_BETTER_AUTH_URL?.replace(/\/$/, "");
     if (!backend) return [];
     return [
+      // Vendor menu, vendor orders and image upload (all vendor-only on the
+      // backend). Same first-party cookie approach as /api/orders.
+      {
+        source: "/api/vendor/:path*",
+        destination: `${backend}/api/vendor/:path*`,
+      },
       {
         source: "/api/auth/:path*",
         destination: `${backend}/api/auth/:path*`,
