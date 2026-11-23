@@ -1,10 +1,10 @@
 import { Suspense, type ReactNode } from "react";
-import { RoleGate } from "@/components/dashboard/role-gate";
+import { AdminShell } from "@/components/admin/admin-shell";
 
 export default function AdminLayout({ children }: { children: ReactNode }) {
   return (
     <Suspense fallback={<p className="p-6 text-sm text-muted-foreground">Loading...</p>}>
-      <RoleGate role="admin">{children}</RoleGate>
+      <AdminShell>{children}</AdminShell>
     </Suspense>
   );
 }

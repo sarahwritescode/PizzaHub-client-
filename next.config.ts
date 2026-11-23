@@ -35,6 +35,12 @@ const nextConfig: NextConfig = {
         source: "/api/vendor/:path*",
         destination: `${backend}/api/vendor/:path*`,
       },
+      // Admin dashboard, menu moderation, users and transactions (admin-only
+      // on the backend).
+      {
+        source: "/api/admin/:path*",
+        destination: `${backend}/api/admin/:path*`,
+      },
       {
         source: "/api/auth/:path*",
         destination: `${backend}/api/auth/:path*`,

@@ -1,3 +1,8 @@
+import type { Metadata } from "next";
+import { AdminDashboard } from "@/components/admin/dashboard";
+
+export const metadata: Metadata = { title: "Admin overview | PizzaHub" };
+
 export default function AdminDashboardPage() {
-  return <p className="text-muted-foreground">Admin dashboard placeholder.</p>;
+  return <AdminDashboard />;
 }
