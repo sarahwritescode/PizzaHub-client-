@@ -28,3 +28,10 @@ export function dashboardPathFor(role: unknown): string {
   if (role === "vendor") return "/vendor/dashboard";
   return "/customer/dashboard";
 }
+
+/** Profile Settings page of a role (admins have none). */
+export function profilePathFor(role: unknown): string | null {
+  if (role === "vendor") return "/vendor/profile";
+  if (role === "customer") return "/customer/profile";
+  return null;
+}

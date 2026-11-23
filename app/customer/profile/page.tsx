@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import { CustomerProfileView } from "@/components/customer/profile-view";
+import { ProfileSettings } from "@/components/shared/profile-settings";
 
-export const metadata: Metadata = { title: "My profile | PizzaHub" };
+export const metadata: Metadata = { title: "Profile settings | PizzaHub" };
 
 export default function Page() {
-  return <CustomerProfileView />;
+  return <ProfileSettings role="customer" />;
 }

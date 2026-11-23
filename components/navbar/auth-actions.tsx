@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ChevronDownIcon, LogOutIcon } from "lucide-react";
+import { ChevronDownIcon, LayoutDashboardIcon, LogOutIcon, UserRoundIcon } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { buttonVariants } from "@/components/ui/button";
 import {
@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { toast } from "@/components/ui/toast";
 import { authClient } from "@/lib/auth-client";
+import { dashboardPathFor, profilePathFor } from "@/lib/roles";
 import { cn } from "@/lib/utils";
 
 type Props = {
@@ -110,6 +111,7 @@ export function AuthActions({ layout, onNavigate }: Props) {
   }
 
   const { user } = session;
+  const profilePath = profilePathFor(user.role);
 
   const avatar = (
     <Avatar size="lg">
@@ -120,7 +122,7 @@ export function AuthActions({ layout, onNavigate }: Props) {
     </Avatar>
   );
 
-  // Mobile menu: name, then a full-width Sign out button (Dashboard is in the link list above).
+  // Mobile menu: name, Profile settings, then a full-width Sign out button (Dashboard is in the link list above).
   if (stacked) {
     return (
       <div className="flex flex-col gap-3">
@@ -128,6 +130,21 @@ export function AuthActions({ layout, onNavigate }: Props) {
           {avatar}
           <span className="truncate text-base font-medium text-ink">{user.name}</span>
         </div>
+        {profilePath && (
+          <Link
+            href={profilePath}
+            onClick={onNavigate}
+            className={cn(
+              buttonVariants({ variant: "ghost" }),
+              pill,
+              "h-11 w-full gap-1.5 border border-crust text-base text-ink hover:bg-crust/60",
+              focusRing
+            )}
+          >
+            <UserRoundIcon aria-hidden="true" />
+            Profile settings
+          </Link>
+        )}
         <button
           type="button"
           onClick={handleSignOut}
@@ -160,11 +177,25 @@ export function AuthActions({ layout, onNavigate }: Props) {
         <span className="hidden max-w-32 truncate xl:inline">{user.name}</span>
         <ChevronDownIcon aria-hidden="true" className="size-4 text-ink/65" />
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-52">
+      <DropdownMenuContent align="end" className="w-56">
         {/* Base UI requires a group label to sit inside a Menu.Group (error #31). */}
         <DropdownMenuGroup>
-          <DropdownMenuLabel className="truncate">{user.name}</DropdownMenuLabel>
+          <DropdownMenuLabel className="flex flex-col gap-0.5">
+            <span className="truncate text-sm font-semibold text-ink">{user.name}</span>
+            <span className="truncate text-xs font-normal text-ink/60">{user.email}</span>
+          </DropdownMenuLabel>
         </DropdownMenuGroup>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem render={<Link href={dashboardPathFor(user.role)} />}>
+          <LayoutDashboardIcon aria-hidden="true" />
+          Dashboard
+        </DropdownMenuItem>
+        {profilePath && (
+          <DropdownMenuItem render={<Link href={profilePath} />}>
+            <UserRoundIcon aria-hidden="true" />
+            Profile settings
+          </DropdownMenuItem>
+        )}
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={handleSignOut} disabled={signingOut}>
           <LogOutIcon aria-hidden="true" />

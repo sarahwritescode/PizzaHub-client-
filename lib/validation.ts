@@ -26,3 +26,18 @@ export const signInSchema = z.object({
   password: z.string().min(1, "Password is required."),
 });
 export type SignInValues = z.infer<typeof signInSchema>;
+
+// Profile Settings: only name, image and (for vendors) business name are
+// editable. The role, email and subscription are never part of this form, and
+// the backend refuses them as well.
+export const profileSchema = z.object({
+  name: z.string().trim().min(2, "Full name must be at least 2 characters.").max(100, "Full name must be at most 100 characters."),
+  image: z
+    .union([
+      z.literal(""),
+      z.url({ protocol: /^https?$/, message: "Enter a valid http(s) image URL." }).max(2048, "That URL is too long."),
+    ])
+    .optional(),
+  businessName: z.string().trim().max(100, "Business name must be at most 100 characters.").optional(),
+});
+export type ProfileValues = z.infer<typeof profileSchema>;

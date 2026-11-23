@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import { ProfileView } from "@/components/vendor/profile-view";
+import { ProfileSettings } from "@/components/shared/profile-settings";
 
-export const metadata: Metadata = { title: "Profile | PizzaHub vendor" };
+export const metadata: Metadata = { title: "Profile settings | PizzaHub vendor" };
 
 export default function Page() {
-  return <ProfileView />;
+  return <ProfileSettings role="vendor" />;
 }
