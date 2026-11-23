@@ -162,7 +162,7 @@ function StatusChart<S extends string>({
   const config: ChartConfig = { count: { label: noun } };
 
   return (
-    <section className="rounded-2xl border border-crust bg-surface p-5" aria-label={title}>
+    <section className="min-w-0 rounded-2xl border border-crust bg-surface p-5" aria-label={title}>
       <h2 className="font-display text-lg font-bold text-ink">{title}</h2>
       {sum(counts) === 0 ? (
         <p className="py-16 text-center text-sm text-ink/60">No {noun} yet.</p>
@@ -187,7 +187,7 @@ function StatusChart<S extends string>({
 
 function RecentOrders({ orders }: { orders: VendorOrder[] }) {
   return (
-    <section className="rounded-2xl border border-crust bg-surface p-5" aria-label="Recent orders">
+    <section className="min-w-0 rounded-2xl border border-crust bg-surface p-5" aria-label="Recent orders">
       <div className="flex items-center justify-between gap-3">
         <h2 className="font-display text-lg font-bold text-ink">Recent orders</h2>
         <Link href="/vendor/orders" className="text-sm font-semibold text-tomato hover:underline">

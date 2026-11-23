@@ -60,7 +60,7 @@ function DashboardBody({ data }: { data: DashboardData }) {
 
   return (
     <div className="space-y-6">
-      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3 xl:grid-cols-4">
         {cards.map((card) => {
           const body = (
             <>
@@ -165,7 +165,7 @@ function RecentList({
   children: React.ReactNode[];
 }) {
   return (
-    <section className="rounded-2xl border border-crust bg-surface p-5" aria-label={title}>
+    <section className="min-w-0 rounded-2xl border border-crust bg-surface p-5" aria-label={title}>
       <div className="flex items-center justify-between gap-3">
         <h2 className="font-display text-lg font-bold text-ink">{title}</h2>
         {href && (
@@ -186,7 +186,7 @@ function RecentList({
 function DashboardSkeleton() {
   return (
     <div className="space-y-6" aria-busy="true" aria-label="Loading overview">
-      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3 xl:grid-cols-4">
         {Array.from({ length: 11 }, (_, index) => (
           <Skeleton key={index} className="h-28 rounded-2xl" />
         ))}
