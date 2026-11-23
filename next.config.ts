@@ -23,8 +23,21 @@ const nextConfig: NextConfig = {
         destination: "/vendor/dashboard",
         permanent: false,
       },
-      // Stripe sends the vendor back here after checkout (?checkout=success|cancelled);
-      // redirects keep the query string.
+      // Stripe sends the vendor back to {CLIENT_URL}/dashboard/vendor/subscription
+      // with ?checkout=success or ?checkout=cancelled (the backend decides that
+      // URL). Those land on the dedicated Payment Success / Cancel pages.
+      {
+        source: "/dashboard/vendor/subscription",
+        has: [{ type: "query", key: "checkout", value: "success" }],
+        destination: "/vendor/payment/success",
+        permanent: false,
+      },
+      {
+        source: "/dashboard/vendor/subscription",
+        has: [{ type: "query", key: "checkout", value: "cancelled" }],
+        destination: "/vendor/payment/cancel",
+        permanent: false,
+      },
       {
         source: "/dashboard/vendor/subscription",
         destination: "/vendor/subscription",
