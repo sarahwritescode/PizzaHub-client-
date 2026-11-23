@@ -170,7 +170,7 @@ export function AuthActions({ layout, onNavigate }: Props) {
           <LogOutIcon aria-hidden="true" />
           {signingOut ? "Signing out..." : "Sign out"}
         </DropdownMenuItem>
-      </DropdownMenuContent>
+      </DropdownMenuContent> 
     </DropdownMenu>
   );
 }

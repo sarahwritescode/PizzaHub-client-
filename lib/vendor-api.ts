@@ -232,26 +232,50 @@ export function uploadImage(
 
 /* ------------------------------------------------------------ subscription */
 
+/** GET /api/vendor/subscription (database only; the server never returns Stripe keys, customer ids or card data). */
+export type Subscription = {
+  /** The EFFECTIVE plan: "premium" only while the paid period is in force. */
+  subscriptionPlan: "free" | "premium";
+  isPremium: boolean;
+  /** Stripe's status (active, past_due, canceled, ...) or "none" for a vendor who never paid. */
+  subscriptionStatus: string;
+  subscriptionExpiresAt: string | null;
+  /** Cancelled, but still Premium until subscriptionExpiresAt. */
+  cancelAtPeriodEnd: boolean;
+};
+
+export function getSubscription() {
+  return request<Subscription>("/api/vendor/subscription");
+}
+
+/**
+ * Starts a Stripe Checkout for the Premium plan. The body is empty on purpose:
+ * the server picks the price and the amount, and refuses any field (400).
+ * Premium is switched on only by the verified Stripe webhook, never by this call.
+ */
+export function startCheckout() {
+  return request<{ url: string; sessionId: string }>("/api/vendor/subscription/checkout", { method: "POST" });
+}
+
 export type Plan = {
   isPremium: boolean;
   /** Set only while Premium is in force. */
   expiresAt: Date | null;
-  /** The plan stored on the account (may say premium even if it has lapsed). */
-  storedPlan: "free" | "premium";
+  status: string;
+  cancelAtPeriodEnd: boolean;
+  /** Not Premium now, but the vendor had a subscription before (it ended or lapsed). */
+  lapsed: boolean;
 };
 
-/**
- * Mirrors the server's rule: Premium means plan = "premium" AND an expiry in
- * the future. This is for display only; the backend decides on every request.
- */
-export function resolvePlan(user: {
-  subscriptionPlan?: string | null;
-  subscriptionExpiresAt?: Date | string | null;
-}): Plan {
-  const storedPlan = user.subscriptionPlan === "premium" ? "premium" : "free";
-  const expiresAt = user.subscriptionExpiresAt ? new Date(user.subscriptionExpiresAt) : null;
-  const valid = expiresAt !== null && !Number.isNaN(expiresAt.getTime()) && expiresAt.getTime() > Date.now();
-  return { isPremium: storedPlan === "premium" && valid, expiresAt: valid ? expiresAt : null, storedPlan };
+export function planFrom(subscription: Subscription): Plan {
+  const expiresAt = subscription.isPremium && subscription.subscriptionExpiresAt ? new Date(subscription.subscriptionExpiresAt) : null;
+  return {
+    isPremium: subscription.isPremium,
+    expiresAt,
+    status: subscription.subscriptionStatus,
+    cancelAtPeriodEnd: subscription.cancelAtPeriodEnd,
+    lapsed: !subscription.isPremium && subscription.subscriptionStatus !== "none",
+  };
 }
 
 /* ---------------------------------------------------------------- display */

@@ -23,6 +23,13 @@ const nextConfig: NextConfig = {
         destination: "/vendor/dashboard",
         permanent: false,
       },
+      // Stripe sends the vendor back here after checkout (?checkout=success|cancelled);
+      // redirects keep the query string.
+      {
+        source: "/dashboard/vendor/subscription",
+        destination: "/vendor/subscription",
+        permanent: false,
+      },
       {
         source: "/dashboard/customer",
         destination: "/customer/dashboard",

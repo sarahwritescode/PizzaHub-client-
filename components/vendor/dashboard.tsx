@@ -7,7 +7,7 @@ import { ChartContainer, ChartTooltip, ChartTooltipContent, type ChartConfig } f
 import { Skeleton } from "@/components/ui/skeleton";
 import { ErrorState, OrderStatusBadge, PageHeader, Thumb } from "@/components/vendor/shared";
 import { useApiResource } from "@/hooks/use-api-resource";
-import { authClient } from "@/lib/auth-client";
+import { useSubscription } from "@/hooks/use-subscription";
 import { formatMenuPrice } from "@/lib/menu-api";
 import {
   FREE_PLAN_ACTIVE_LIMIT,
@@ -19,8 +19,8 @@ import {
   countOrders,
   formatDate,
   listOrders,
-  resolvePlan,
   type ApiResult,
+  type Plan,
   type MenuStatus,
   type OrderStatus,
   type VendorOrder,
@@ -59,10 +59,9 @@ const STATUS_COLOR = {
 } as const;
 
 export function VendorDashboard() {
-  const { data: session } = authClient.useSession();
   const { result, loading, reload } = useApiResource("dashboard", loadStats);
 
-  const plan = session?.user ? resolvePlan(session.user) : null;
+  const { plan } = useSubscription();
 
   return (
     <>
@@ -96,7 +95,7 @@ export function VendorDashboard() {
   );
 }
 
-function StatGrid({ stats, plan }: { stats: Stats; plan: ReturnType<typeof resolvePlan> | null }) {
+function StatGrid({ stats, plan }: { stats: Stats; plan: Plan | null }) {
   const active = stats.menu.pending + stats.menu.approved;
   const cards: { label: string; value: number; hint?: string }[] = [
     { label: "Total menu items", value: sum(stats.menu) },

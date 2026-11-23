@@ -3,11 +3,12 @@
 import { Skeleton } from "@/components/ui/skeleton";
 import { PageHeader } from "@/components/vendor/shared";
 import { authClient } from "@/lib/auth-client";
-import { resolvePlan } from "@/lib/vendor-api";
+import { useSubscription } from "@/hooks/use-subscription";
 
 export function ProfileView() {
   const { data: session, isPending } = authClient.useSession();
   const user = session?.user;
+  const { plan } = useSubscription();
 
   const rows = user
     ? [
@@ -15,7 +16,7 @@ export function ProfileView() {
         ["Email", user.email],
         ["Business name", user.businessName || "Not set"],
         ["Role", "Vendor"],
-        ["Plan", resolvePlan(user).isPremium ? "Premium" : "Free"],
+        ["Plan", plan ? (plan.isPremium ? "Premium" : "Free") : "Loading..."],
       ]
     : [];
 

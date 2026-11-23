@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+import { PageLoader } from "@/components/shared/page-loader";
 import { redirect } from "next/navigation";
 import { getSessionUser } from "@/lib/session";
 import { dashboardPathFor } from "@/lib/roles";
@@ -14,7 +15,7 @@ async function DashboardRedirect(): Promise<null> {
 
 export default function DashboardPage() {
   return (
-    <Suspense fallback={<p className="p-6 text-sm text-muted-foreground">Loading...</p>}>
+    <Suspense fallback={<PageLoader />}>
       <DashboardRedirect />
     </Suspense>
   );
