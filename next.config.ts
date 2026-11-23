@@ -28,6 +28,22 @@ const nextConfig: NextConfig = {
         destination: "/customer/dashboard",
         permanent: false,
       },
+      // The admin area used to live under /dashboard/admin.
+      {
+        source: "/dashboard/admin",
+        destination: "/admin/dashboard",
+        permanent: false,
+      },
+      {
+        source: "/dashboard/admin/menu",
+        destination: "/admin/menu-items",
+        permanent: false,
+      },
+      {
+        source: "/dashboard/admin/:section(users|transactions)",
+        destination: "/admin/:section",
+        permanent: false,
+      },
     ];
   },
   async rewrites() {

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { BanIcon, CheckIcon, MapPinIcon, SearchIcon, Trash2Icon, XIcon } from "lucide-react";
+import { BanIcon, CheckIcon, EyeIcon, MapPinIcon, SearchIcon, Trash2Icon, XIcon } from "lucide-react";
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -13,6 +13,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
+import { MenuItemDetails } from "@/components/admin/menu-item-details";
 import { Input } from "@/components/ui/input";
 import { toast } from "@/components/ui/toast";
 import { brandButtonClass, dangerButtonClass, outlineButtonClass } from "@/components/shared/button-styles";
@@ -73,15 +74,29 @@ export function MenuModeration() {
   const initial = useSearchParams().get("status");
   const [status, setStatus] = useState<MenuStatus | "">(isMenuStatus(initial) ? initial : "");
   const [page, setPage] = useState(1);
+  const [category, setCategory] = useState("");
+  const [details, setDetails] = useState<AdminMenuItem | null>(null);
   const [searchInput, setSearchInput] = useState("");
   const [search, setSearch] = useState("");
   const [busyId, setBusyId] = useState<string | null>(null);
   const [pending, setPending] = useState<Action | null>(null);
   const [working, setWorking] = useState(false);
 
-  const { result, loading, reload } = useApiResource(`admin-menu:${status}:${search}:${page}`, () =>
-    listMenuItems({ status: status || undefined, search: search || undefined, page, limit: PAGE_SIZE })
+  const { result, loading, reload } = useApiResource(`admin-menu:${status}:${category}:${search}:${page}`, () =>
+    listMenuItems({
+      status: status || undefined,
+      category: category || undefined,
+      search: search || undefined,
+      page,
+      limit: PAGE_SIZE,
+    })
   );
+
+  // The category filter lists the categories of the newest 50 items (the server has no categories endpoint for admins).
+  const { result: sample } = useApiResource("admin-menu-categories", () => listMenuItems({ limit: 50 }));
+  const categories = [
+    ...new Set([...(sample?.ok ? sample.data.map((entry) => entry.category) : []), ...(category ? [category] : [])]),
+  ].sort((a, b) => a.localeCompare(b));
 
   const items = result?.ok ? result.data : [];
   const pagination = result?.ok ? result.pagination : undefined;
@@ -137,8 +152,8 @@ export function MenuModeration() {
   return (
     <>
       <PageHeader
-        title="Menu moderation"
-        description="Review vendor items before they go live. Approved items appear on the public menu."
+        title="Manage menu items"
+        description="Review vendor items before they go live. Approved items appear on the home page and the public menu."
       />
 
       <div className="mb-5 flex flex-col gap-3 sm:flex-row">
@@ -173,6 +188,22 @@ export function MenuModeration() {
             </option>
           ))}
         </select>
+        <select
+          aria-label="Filter by category"
+          value={category}
+          onChange={(event) => {
+            setCategory(event.target.value);
+            setPage(1);
+          }}
+          className="h-10 w-full rounded-lg border border-input bg-white px-2.5 text-sm outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 sm:w-52"
+        >
+          <option value="">All categories</option>
+          {categories.map((value) => (
+            <option key={value} value={value}>
+              {value}
+            </option>
+          ))}
+        </select>
       </div>
 
       {!result && loading && <ListSkeleton />}
@@ -182,9 +213,9 @@ export function MenuModeration() {
         <div className={loading ? "opacity-60 transition-opacity" : "transition-opacity"} aria-busy={loading}>
           {items.length === 0 ? (
             <EmptyState
-              title={status ? `No ${MENU_STATUS_LABEL[status].toLowerCase()} items` : "No menu items found"}
+              title={status && !category ? `No ${MENU_STATUS_LABEL[status].toLowerCase()} items` : "No menu items found"}
               description={
-                search || status ? "Try another search or status filter." : "Vendor items will appear here for review."
+                search || status || category ? "Try another search or filter." : "Vendor items will appear here for review."
               }
             />
           ) : (
@@ -195,6 +226,7 @@ export function MenuModeration() {
                   item={item}
                   busy={busyId === item._id}
                   onApprove={() => approve(item)}
+                  onDetails={() => setDetails(item)}
                   onAction={(kind) => setPending({ item, kind })}
                 />
               ))}
@@ -203,6 +235,8 @@ export function MenuModeration() {
           {pagination && <Pager pagination={pagination} onPage={setPage} disabled={loading} />}
         </div>
       )}
+
+      <MenuItemDetails item={details} onClose={() => setDetails(null)} />
 
       <AlertDialog open={pending !== null} onOpenChange={(open) => !open && !working && setPending(null)}>
         <AlertDialogContent>
@@ -228,11 +262,13 @@ function ModerationRow({
   item,
   busy,
   onApprove,
+  onDetails,
   onAction,
 }: {
   item: AdminMenuItem;
   busy: boolean;
   onApprove: () => void;
+  onDetails: () => void;
   onAction: (kind: Action["kind"]) => void;
 }) {
   const vendorLabel = item.vendor
@@ -260,6 +296,9 @@ function ModerationRow({
       </div>
 
       <div className="flex shrink-0 flex-wrap items-center gap-2 lg:justify-end">
+        <button type="button" onClick={onDetails} className={outlineButtonClass}>
+          <EyeIcon aria-hidden="true" /> Details
+        </button>
         {item.status === "pending" && (
           <>
             <button type="button" disabled={busy} onClick={() => onAction("reject")} className={dangerButtonClass}>

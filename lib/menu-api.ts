@@ -123,13 +123,14 @@ async function getJson<T>(path: string): Promise<ApiResult<T>> {
 
 export async function fetchMenuItems(
   query: MenuQuery,
+  limit: number = MENU_PAGE_SIZE,
 ): Promise<ApiResult<{ items: MenuItem[]; pagination: Pagination }>> {
   const sort = SORT_OPTIONS.find((option) => option.value === query.sort)!;
   const params = new URLSearchParams({
     sortBy: sort.sortBy,
     order: sort.order,
     page: String(query.page),
-    limit: String(MENU_PAGE_SIZE),
+    limit: String(limit),
   });
   if (query.category) params.set("category", query.category);
   if (query.search) params.set("search", query.search);

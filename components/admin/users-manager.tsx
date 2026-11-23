@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { CrownIcon, SearchIcon } from "lucide-react";
+import { CrownIcon, EyeIcon, SearchIcon } from "lucide-react";
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -16,6 +16,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "@/components/ui/toast";
 import { BlockedBadge, RoleBadge } from "@/components/admin/badges";
+import { UserDetails } from "@/components/admin/user-details";
+import { outlineButtonClass } from "@/components/shared/button-styles";
 import { EmptyState, ErrorState, ListSkeleton } from "@/components/shared/states";
 import { PageHeader } from "@/components/shared/page-header";
 import { Pager } from "@/components/shared/pager";
@@ -41,10 +43,15 @@ const selectClass =
 type Toggle = { user: AdminUser; kind: "block" | "unblock" };
 
 export function UsersManager() {
-  // The overview links here with ?status=blocked.
-  const initial = useSearchParams().get("status");
+  // The overview links here with ?status=blocked or ?role=vendor.
+  const params = useSearchParams();
+  const initial = params.get("status");
+  const initialRole = params.get("role");
   const { data: session } = authClient.useSession();
-  const [role, setRole] = useState<UserRole | "">("");
+  const [role, setRole] = useState<UserRole | "">(
+    (USER_ROLES as readonly string[]).includes(initialRole ?? "") ? (initialRole as UserRole) : ""
+  );
+  const [details, setDetails] = useState<AdminUser | null>(null);
   const [blockFilter, setBlockFilter] = useState<UserBlockFilter | "">(
     (USER_BLOCK_FILTERS as readonly string[]).includes(initial ?? "") ? (initial as UserBlockFilter) : ""
   );
@@ -96,7 +103,7 @@ export function UsersManager() {
 
   return (
     <>
-      <PageHeader title="Users" description="Find accounts and block or unblock customers and vendors." />
+      <PageHeader title="Manage users" description="Find accounts, see their details, and block or unblock customers and vendors." />
 
       <div className="mb-5 flex flex-col gap-3 lg:flex-row">
         <form onSubmit={submitSearch} role="search" className="relative flex flex-1 gap-2">
@@ -162,6 +169,7 @@ export function UsersManager() {
                   user={user}
                   isSelf={user._id === session?.user.id}
                   onToggle={(kind) => setToggle({ user, kind })}
+                  onDetails={() => setDetails(user)}
                 />
               ))}
             </ul>
@@ -169,6 +177,8 @@ export function UsersManager() {
           {pagination && <Pager pagination={pagination} onPage={setPage} disabled={loading} />}
         </div>
       )}
+
+      <UserDetails user={details} onClose={() => setDetails(null)} />
 
       <AlertDialog open={toggle !== null} onOpenChange={(open) => !open && !working && setToggle(null)}>
         <AlertDialogContent>
@@ -204,10 +214,12 @@ function UserRow({
   user,
   isSelf,
   onToggle,
+  onDetails,
 }: {
   user: AdminUser;
   isSelf: boolean;
   onToggle: (kind: Toggle["kind"]) => void;
+  onDetails: () => void;
 }) {
   const premium = user.role === "vendor" && user.subscriptionPlan === "premium";
 
@@ -232,7 +244,10 @@ function UserRow({
         </p>
       </div>
 
-      <div className="shrink-0">
+      <div className="flex shrink-0 flex-wrap items-center gap-2">
+        <button type="button" onClick={onDetails} className={outlineButtonClass}>
+          <EyeIcon aria-hidden="true" /> Details
+        </button>
         {user.role === "admin" || isSelf ? (
           <p className="text-xs text-ink/55">Admins cannot be blocked.</p>
         ) : user.isBlocked ? (

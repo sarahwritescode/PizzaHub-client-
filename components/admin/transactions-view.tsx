@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { TransactionStatusBadge } from "@/components/admin/badges";
 import { EmptyState, ErrorState, ListSkeleton } from "@/components/shared/states";
 import { PageHeader } from "@/components/shared/page-header";
@@ -12,6 +13,7 @@ import {
   formatDate,
   formatMoney,
   listTransactions,
+  listUsers,
   type AdminTransaction,
   type TransactionStatus,
 } from "@/lib/admin-api";
@@ -19,12 +21,23 @@ import {
 const PAGE_SIZE = 12;
 
 export function TransactionsView() {
-  const [status, setStatus] = useState<TransactionStatus | "">("");
+  // The overview links here with ?status=success.
+  const initial = useSearchParams().get("status");
+  const [status, setStatus] = useState<TransactionStatus | "">(
+    (TRANSACTION_STATUSES as readonly string[]).includes(initial ?? "") ? (initial as TransactionStatus) : ""
+  );
+  const [vendorId, setVendorId] = useState("");
   const [page, setPage] = useState(1);
 
-  const { result, loading, reload } = useApiResource(`admin-transactions:${status}:${page}`, () =>
-    listTransactions({ status: status || undefined, page, limit: PAGE_SIZE })
+  const { result, loading, reload } = useApiResource(`admin-transactions:${status}:${vendorId}:${page}`, () =>
+    listTransactions({ status: status || undefined, vendorId: vendorId || undefined, page, limit: PAGE_SIZE })
   );
+
+  // Vendor filter options: the 50 newest vendor accounts (the server has no vendor picker endpoint).
+  const { result: vendorsResult } = useApiResource("admin-transaction-vendors", () =>
+    listUsers({ role: "vendor", limit: 50 })
+  );
+  const vendors = vendorsResult?.ok ? vendorsResult.data : [];
 
   const transactions = result?.ok ? result.data : [];
   const pagination = result?.ok ? result.pagination : undefined;
@@ -36,7 +49,7 @@ export function TransactionsView() {
         description="Vendor subscription payments. This list is read-only; it changes only when Stripe confirms a payment."
       />
 
-      <div className="mb-5 flex flex-wrap items-center gap-3">
+      <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
         <label htmlFor="transaction-status" className="text-sm font-medium text-ink/70">
           Status
         </label>
@@ -49,10 +62,29 @@ export function TransactionsView() {
           }}
           className="h-10 w-full rounded-lg border border-input bg-white px-2.5 text-sm outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 sm:w-52"
         >
-          <option value="">All transactions</option>
+          <option value="">All statuses</option>
           {TRANSACTION_STATUSES.map((value) => (
             <option key={value} value={value}>
               {TRANSACTION_STATUS_LABEL[value]}
+            </option>
+          ))}
+        </select>
+        <label htmlFor="transaction-vendor" className="text-sm font-medium text-ink/70">
+          Vendor
+        </label>
+        <select
+          id="transaction-vendor"
+          value={vendorId}
+          onChange={(event) => {
+            setVendorId(event.target.value);
+            setPage(1);
+          }}
+          className="h-10 w-full rounded-lg border border-input bg-white px-2.5 text-sm outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 sm:w-64"
+        >
+          <option value="">All vendors</option>
+          {vendors.map((vendor) => (
+            <option key={vendor._id} value={vendor._id}>
+              {vendor.businessName ?? vendor.name} ({vendor.email})
             </option>
           ))}
         </select>
@@ -65,8 +97,8 @@ export function TransactionsView() {
         <div className={loading ? "opacity-60 transition-opacity" : "transition-opacity"} aria-busy={loading}>
           {transactions.length === 0 ? (
             <EmptyState
-              title={status ? `No ${TRANSACTION_STATUS_LABEL[status].toLowerCase()} transactions` : "No transactions yet"}
-              description={status ? "Try another status." : "Premium subscription payments will appear here."}
+              title={status && !vendorId ? `No ${TRANSACTION_STATUS_LABEL[status].toLowerCase()} transactions` : status || vendorId ? "No matching transactions" : "No transactions yet"}
+              description={status || vendorId ? "Try another status or vendor." : "Premium subscription payments will appear here."}
             />
           ) : (
             <ul className="space-y-3">

@@ -46,36 +46,32 @@ export function AdminDashboard() {
 
 function DashboardBody({ data }: { data: DashboardData }) {
   const cards: { label: string; value: number; hint?: string; href?: string }[] = [
+    { label: "Total users", value: data.users.total, hint: `${data.users.admins} admin${data.users.admins === 1 ? "" : "s"}`, href: "/admin/users" },
+    { label: "Customers", value: data.users.customers, href: "/admin/users?role=customer" },
+    { label: "Vendors", value: data.users.vendors, href: "/admin/users?role=vendor" },
+    { label: "Blocked users", value: data.users.blocked, href: "/admin/users?status=blocked" },
+    { label: "Total menu items", value: data.menuItems.total, href: "/admin/menu-items" },
     {
-      label: "Users",
-      value: data.users.total,
-      hint: `${data.users.customers} customers · ${data.users.vendors} vendors · ${data.users.admins} admins`,
-      href: "/dashboard/admin/users",
-    },
-    {
-      label: "Blocked users",
-      value: data.users.blocked,
-      href: "/dashboard/admin/users?status=blocked",
-    },
-    {
-      label: "Menu items awaiting review",
+      label: "Pending menu items",
       value: data.menuItems.pending,
-      hint: `${data.menuItems.total} items in total`,
-      href: "/dashboard/admin/menu?status=pending",
+      hint: "Waiting for your review",
+      href: "/admin/menu-items?status=pending",
     },
-    { label: "Orders", value: data.orders.total, hint: `${data.orders.pending} pending` },
+    { label: "Approved menu items", value: data.menuItems.approved, hint: "Live on the public menu", href: "/admin/menu-items?status=approved" },
+    { label: "Total orders", value: data.orders.total },
+    { label: "Pending orders", value: data.orders.pending, hint: "Waiting for the vendor" },
     {
-      label: "Transactions",
-      value: data.transactions.total,
-      hint: `${data.transactions.success} successful`,
-      href: "/dashboard/admin/transactions",
+      label: "Successful transactions",
+      value: data.transactions.success,
+      hint: `${data.transactions.total} in total`,
+      href: "/admin/transactions?status=success",
     },
     { label: "Active Premium vendors", value: data.subscriptions.activePremiumVendors },
   ];
 
   return (
     <div className="space-y-6">
-      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         {cards.map((card) => {
           const body = (
             <>
@@ -119,7 +115,7 @@ function DashboardBody({ data }: { data: DashboardData }) {
       </div>
 
       <div className="grid gap-6 lg:grid-cols-3">
-        <RecentList title="Newest users" href="/dashboard/admin/users" empty="No users yet.">
+        <RecentList title="Newest users" href="/admin/users" empty="No users yet.">
           {data.recent.users.map((user) => (
             <li key={user._id} className="flex items-center justify-between gap-3 py-3">
               <div className="min-w-0">
@@ -148,7 +144,7 @@ function DashboardBody({ data }: { data: DashboardData }) {
           ))}
         </RecentList>
 
-        <RecentList title="Latest payments" href="/dashboard/admin/transactions" empty="No transactions yet.">
+        <RecentList title="Latest payments" href="/admin/transactions" empty="No transactions yet.">
           {data.recent.transactions.map((transaction) => (
             <li key={transaction._id} className="flex items-center justify-between gap-3 py-3">
               <div className="min-w-0">
@@ -249,8 +245,8 @@ function RecentList({
 function DashboardSkeleton() {
   return (
     <div className="space-y-6" aria-busy="true" aria-label="Loading overview">
-      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-        {Array.from({ length: 6 }, (_, index) => (
+      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        {Array.from({ length: 11 }, (_, index) => (
           <Skeleton key={index} className="h-28 rounded-2xl" />
         ))}
       </div>

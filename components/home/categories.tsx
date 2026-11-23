@@ -1,9 +1,26 @@
-import { CategoryCard } from "@/components/home/category-card";
+import { CategoryCard, type HomeCategory } from "@/components/home/category-card";
 import { InView } from "@/components/home/in-view";
-import { getCategories } from "@/lib/categories";
+import { fetchMenuCategories, fetchMenuItems } from "@/lib/menu-api";
 
+// Real categories from the backend (only categories that have at least one
+// approved item), each with the photo of its newest item.
 export async function Categories() {
-  const categories = await getCategories();
+  const [categoriesResult, itemsResult] = await Promise.all([
+    fetchMenuCategories(),
+    fetchMenuItems({ sort: "newest", page: 1 }, 50),
+  ]);
+
+  // Without categories there is nothing to explore yet: hide the whole section.
+  if (!categoriesResult.ok || categoriesResult.data.length === 0) return null;
+
+  const newestFirst = itemsResult.ok ? itemsResult.data.items : [];
+  const categories: HomeCategory[] = categoriesResult.data.map(({ name, count }) => ({
+    name,
+    count,
+    image: newestFirst
+      .find((item) => item.category.toLowerCase() === name.toLowerCase())
+      ?.images.find((src) => /^https?:\/\//i.test(src)),
+  }));
 
   return (
     <section
@@ -26,7 +43,7 @@ export async function Categories() {
 
         <ul className="mt-10 grid grid-cols-2 gap-3 sm:mt-14 sm:grid-cols-3 sm:gap-6 lg:gap-8">
           {categories.map((category, index) => (
-            <li key={category.id}>
+            <li key={category.name}>
               <InView className="h-full" delay={(index % 3) * 0.08}>
                 <CategoryCard category={category} />
               </InView>

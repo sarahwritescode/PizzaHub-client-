@@ -8,6 +8,7 @@
  *   PATCH /api/admin/menu-items/:id/status          { status }
  *   DELETE /api/admin/menu-items/:id
  *   GET   /api/admin/users?search&role&status&page&limit
+ *   GET   /api/admin/users/:id
  *   PATCH /api/admin/users/:id/block | /unblock
  *   GET   /api/admin/transactions?status&vendorId&page&limit
  *
@@ -123,7 +124,7 @@ export function getDashboard() {
 /* ------------------------------------------------------------- menu items */
 
 export function listMenuItems(
-  params: { status?: MenuStatus; search?: string; page?: number; limit?: number } = {}
+  params: { status?: MenuStatus; category?: string; search?: string; page?: number; limit?: number } = {}
 ) {
   return request<AdminMenuItem[]>(`/api/admin/menu-items${query(params)}`);
 }
@@ -156,6 +157,11 @@ export function listUsers(
   return request<AdminUser[]>(`/api/admin/users${query(params)}`);
 }
 
+/** One user's details (the server returns the same safe fields as the list: no passwords, tokens or sessions). */
+export function getUser(id: string) {
+  return request<AdminUser>(`/api/admin/users/${id}`);
+}
+
 export function blockUser(id: string) {
   return request<AdminUser>(`/api/admin/users/${id}/block`, { method: "PATCH" });
 }
@@ -173,6 +179,16 @@ export function listTransactions(
 }
 
 /* ---------------------------------------------------------------- display */
+
+/** The API already reports the effective plan; this also checks the expiry date for display. */
+export function resolveUserPlan(user: Pick<AdminUser, "subscriptionPlan" | "subscriptionExpiresAt">): {
+  premium: boolean;
+  until: string | null;
+} {
+  const until = user.subscriptionExpiresAt;
+  const premium = user.subscriptionPlan === "premium" && (!until || new Date(until).getTime() > Date.now());
+  return { premium, until };
+}
 
 /** Formats a payment in the currency it was charged in (the backend sends "usd"). */
 export function formatMoney(amount: number, currency: string): string {

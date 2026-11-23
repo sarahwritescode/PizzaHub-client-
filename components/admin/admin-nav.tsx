@@ -6,10 +6,10 @@ import { CreditCardIcon, LayoutDashboardIcon, PizzaIcon, UsersIcon } from "lucid
 import { isActivePath } from "@/lib/nav";
 
 const LINKS = [
-  { href: "/dashboard/admin", label: "Overview", Icon: LayoutDashboardIcon, exact: true },
-  { href: "/dashboard/admin/menu", label: "Menu moderation", Icon: PizzaIcon },
-  { href: "/dashboard/admin/users", label: "Users", Icon: UsersIcon },
-  { href: "/dashboard/admin/transactions", label: "Transactions", Icon: CreditCardIcon },
+  { href: "/admin/dashboard", label: "Overview", Icon: LayoutDashboardIcon },
+  { href: "/admin/menu-items", label: "Manage menu items", Icon: PizzaIcon },
+  { href: "/admin/users", label: "Manage users", Icon: UsersIcon },
+  { href: "/admin/transactions", label: "Transactions", Icon: CreditCardIcon },
 ] as const;
 
 export function AdminNav() {
@@ -18,7 +18,7 @@ export function AdminNav() {
     <nav aria-label="Admin" className="flex gap-1 overflow-x-auto md:flex-col md:overflow-visible">
       {LINKS.map((link) => {
         const { href, label, Icon } = link;
-        const active = "exact" in link ? pathname === href : isActivePath(pathname, href);
+        const active = isActivePath(pathname, href);
         return (
           <Link
             key={href}
