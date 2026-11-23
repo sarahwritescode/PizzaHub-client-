@@ -7,24 +7,27 @@ import {
   CrownIcon,
   LayoutDashboardIcon,
   PizzaIcon,
+  PlusIcon,
   UserRoundIcon,
 } from "lucide-react";
 import { isActivePath } from "@/lib/nav";
 
-const LINKS = [
-  { href: "/vendor/dashboard", label: "Dashboard", Icon: LayoutDashboardIcon },
-  { href: "/vendor/menu", label: "Menu", Icon: PizzaIcon },
-  { href: "/vendor/orders", label: "Orders", Icon: ClipboardListIcon },
-  { href: "/vendor/subscription", label: "Subscription", Icon: CrownIcon },
-  { href: "/vendor/profile", label: "Profile", Icon: UserRoundIcon },
-] as const;
+const LINKS: { href: string; label: string; Icon: typeof PizzaIcon; active: (pathname: string) => boolean }[] = [
+  { href: "/vendor/dashboard", label: "Overview", Icon: LayoutDashboardIcon, active: (p) => isActivePath(p, "/vendor/dashboard") },
+  // "Add menu item" has its own link, so the list link is not lit for it.
+  { href: "/vendor/menu", label: "My menu items", Icon: PizzaIcon, active: (p) => p === "/vendor/menu" || isActivePath(p, "/vendor/menu/edit") },
+  { href: "/vendor/menu/add", label: "Add menu item", Icon: PlusIcon, active: (p) => isActivePath(p, "/vendor/menu/add") },
+  { href: "/vendor/orders", label: "Customer orders", Icon: ClipboardListIcon, active: (p) => isActivePath(p, "/vendor/orders") },
+  { href: "/vendor/subscription", label: "Subscription", Icon: CrownIcon, active: (p) => isActivePath(p, "/vendor/subscription") },
+  { href: "/vendor/profile", label: "Profile", Icon: UserRoundIcon, active: (p) => isActivePath(p, "/vendor/profile") },
+];
 
 export function VendorNav() {
   const pathname = usePathname();
   return (
     <nav aria-label="Vendor" className="flex gap-1 overflow-x-auto md:flex-col md:overflow-visible">
-      {LINKS.map(({ href, label, Icon }) => {
-        const active = isActivePath(pathname, href);
+      {LINKS.map(({ href, label, Icon, active: isActive }) => {
+        const active = isActive(pathname);
         return (
           <Link
             key={href}
