@@ -9,6 +9,7 @@ import { buttonVariants } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
@@ -160,7 +161,10 @@ export function AuthActions({ layout, onNavigate }: Props) {
         <ChevronDownIcon aria-hidden="true" className="size-4 text-ink/65" />
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-52">
-        <DropdownMenuLabel className="truncate">{user.name}</DropdownMenuLabel>
+        {/* Base UI requires a group label to sit inside a Menu.Group (error #31). */}
+        <DropdownMenuGroup>
+          <DropdownMenuLabel className="truncate">{user.name}</DropdownMenuLabel>
+        </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={handleSignOut} disabled={signingOut}>
           <LogOutIcon aria-hidden="true" />

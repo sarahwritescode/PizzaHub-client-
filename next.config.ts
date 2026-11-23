@@ -23,6 +23,11 @@ const nextConfig: NextConfig = {
         destination: "/vendor/dashboard",
         permanent: false,
       },
+      {
+        source: "/dashboard/customer",
+        destination: "/customer/dashboard",
+        permanent: false,
+      },
     ];
   },
   async rewrites() {

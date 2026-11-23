@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { ArrowLeft, CalendarDays, MapPin } from "lucide-react";
 import { AddToCartButton } from "@/components/menu/add-to-cart-button";
 import { ItemGallery } from "@/components/menu/item-gallery";
+import { OrderDialog } from "@/components/menu/order-dialog";
 import { buildMenuHref, fetchMenuItem, formatMenuPrice } from "@/lib/menu-api";
 
 const backLinkClass =
@@ -82,6 +83,17 @@ export async function ItemDetails({ params }: { params: Promise<{ id: string }> 
         </dl>
 
         <div className="mt-8 flex flex-wrap items-center gap-3">
+          <OrderDialog
+            item={{
+              id: item._id,
+              name: item.itemName,
+              category: item.category,
+              price: item.price,
+              location: item.location,
+              description: item.description,
+              image: images[0],
+            }}
+          />
           <AddToCartButton id={item._id} name={item.itemName} price={item.price} />
           <Link
             href="/menu"
